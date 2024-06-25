@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Ubuntu_app",
-    "slug": "Ubuntu_app",
+    "name": "Ubuntu app",
+    "slug": "Ubuntu app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -11,6 +11,15 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
+    "assetBundlePatterns": ["**/*"],
+    "plugins": [
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Allow $(PRODUCT_NAME) to access your camera."
+        }
+      ]
+    ],
     "ios": {
       "supportsTablet": true
     },

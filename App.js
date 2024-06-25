@@ -1,20 +1,39 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet } from "react-native";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import AppNavigation from "./components/AppNavigation";
+import { NavigationContainer } from "@react-navigation/native";
+import { useState } from "react";
+import OnboardingNavigation from "./components/OnboardingNavigation";
+import { AuthProvider } from "./AuthContext";
 
 export default function App() {
+  const [userAuthenticated, setUserAuthenticated] = useState(false);
+
+  // Function to update authentication state after successful login or signup
+  const updateAuthentication = (authenticated) => {
+    setUserAuthenticated(authenticated);
+  };
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <SafeAreaProvider>
+      <AuthProvider>
+        <NavigationContainer>
+          {/* {!userAuthenticated ? (
+            <OnboardingNavigation updateAuthentication={updateAuthentication} />
+          ) : (
+          )} */}
+            <AppNavigation />
+        </NavigationContainer>
+      </AuthProvider>
+    </SafeAreaProvider>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
