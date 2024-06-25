@@ -30,15 +30,15 @@ const HomeScreen = () => {
         >
           <View style={styles.topContainer}>
             <BlurView intensity={20} style={styles.blurContainer}>
-              <Text style={styles.greetingName}>Hello, Rajkumar</Text>
+              <Text style={styles.greetingName}>Hello, Faith</Text>
               <Image
-                source={require("../assets/avatar.jpg")}
+                source={require("../assets/avatar.png")}
                 style={styles.avatar}
               />
             </BlurView>
             <View style={styles.TextAndSearchContainer}>
               {/* Contact Information Section */}
-              <View style={styles.contactInfoContainer}>
+              {/* <View style={styles.contactInfoContainer}>
                 <TouchableOpacity
                   style={styles.contactButton}
                   onPress={() => {
@@ -47,10 +47,10 @@ const HomeScreen = () => {
                 >
                   <FontAwesome5 name="phone" size={20} color="#00b894" />
                   <Text style={styles.contactButtonText}>
-                    Call us at: (123) 456-7890
+                    Call us at: 0912345678
                   </Text>
                 </TouchableOpacity>
-              </View>
+              </View> */}
               {/* <Text style={styles.greetingSearch}>Find your doctor</Text> */}
               <View style={styles.searchContainer}>
                 <EvilIcons name="search" size={24} color="#00b894" />

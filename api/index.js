@@ -10,7 +10,7 @@ app.use(express.json());
 
 // Connect to MongoDB
 mongoose
-  .connect(process.env.MONGO_URI, {
+  .connect("mongodb://127.0.0.1:27017/Ubuntu_app", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })

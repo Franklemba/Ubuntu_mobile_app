@@ -10,18 +10,21 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
-import { Camera } from "expo-camera";
+import { Camera, useCameraPermissions } from "expo-camera";
+import * as ImagePicker from 'expo-image-picker';
 import CustomButton from "../components/CustomButton";
 
 const ProfileScreen = ({ navigation }) => {
   const [image, setImage] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
 
-  const [cameraPermission, requestPermission] = Camera.useCameraPermissions();
+  const [permission, requestPermission] = useCameraPermissions();
 
   useEffect(() => {
-    requestPermission();
-  }, []);
+    if (permission && permission.status !== 'granted') {
+      requestPermission();
+    }
+  }, [permission]);
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -38,7 +41,7 @@ const ProfileScreen = ({ navigation }) => {
   };
 
   const openCamera = async () => {
-    if (cameraPermission.status === "granted") {
+    if (permission.status === "granted") {
       setModalVisible(false);
       // You can navigate to the camera screen or add camera functionality here
     } else {
@@ -60,7 +63,7 @@ const ProfileScreen = ({ navigation }) => {
         </View>
         <TouchableOpacity onPress={() => setModalVisible(true)}>
           <Image
-            source={image ? { uri: image } : require("../assets/avatar.jpg")}
+            source={image ? { uri: image } : require("../assets/avatar.png")}
             style={styles.profileImage}
           />
           <Ionicons
@@ -94,7 +97,7 @@ const ProfileScreen = ({ navigation }) => {
             title="Pick an image from the camera roll"
             onPress={pickImage}
           />
-          {/* <CustomButton title="Open Camera" onPress={openCamera} /> */}
+          <CustomButton title="Open Camera" onPress={openCamera} />
           <CustomButton title="Cancel" onPress={() => setModalVisible(false)} />
         </View>
       </Modal>
@@ -163,4 +166,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ProfileScreen; // Wrap the component with withNavigation
+export default ProfileScreen;

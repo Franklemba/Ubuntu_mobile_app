@@ -45,7 +45,7 @@ const AppNavigation = () => {
           headerShown: false,
         }}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         name="DoctorDetails"
         component={DoctorDetailsScreen}
         options={{
@@ -58,9 +58,9 @@ const AppNavigation = () => {
           ),
           headerShown: false,
         }}
-      />
+      /> */}
 
-      <Tab.Screen
+      {/* <Tab.Screen
         name="Appointment Booking"
         component={AppointmentBookingScreen}
         options={{
@@ -68,8 +68,8 @@ const AppNavigation = () => {
             <Ionicons name="calendar" size={size} color={color} />
           ),
         }}
-      />
-      <Tab.Screen
+      /> */}
+      {/* <Tab.Screen
         name="My Appointments"
         component={ViewAppointmentsScreen}
         options={{
@@ -77,7 +77,7 @@ const AppNavigation = () => {
             <Ionicons name="list" size={size} color={color} />
           ),
         }}
-      />
+      /> */}
     </Tab.Navigator>
   );
 };
