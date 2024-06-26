@@ -10,28 +10,49 @@ import {
 
 
 const Recommendations = () => {
-     // Dummy data for personalized recommendations
+     // Dummy data for personalized Recommendations
   const recommendedProviders = [
     {
       id: "1",
       image:
         "https://images.pexels.com/photos/4173239/pexels-photo-4173239.jpeg?auto=compress&cs=tinysrgb&w=1600",
-      name: "Dr. John Smith",
-      specialty: "Cardiologist",
+      Title: "Type 2 Diabetes",
+      specialty: "Latest Research and Treatment Options",
     },
     {
       id: "2",
       image:
         "https://images.pexels.com/photos/4173251/pexels-photo-4173251.jpeg?auto=compress&cs=tinysrgb&w=1600",
-      name: "Dr. Jane Doe",
-      specialty: "Dermatologist",
+      Title: "Managing Asthma",
+      specialty: "Effective Strategies for Better Control",
     },
     {
       id: "3",
       image:
         "https://images.pexels.com/photos/5327656/pexels-photo-5327656.jpeg?auto=compress&cs=tinysrgb&w=1600",
-      name: "Dr. Alex Johnson",
-      specialty: "Pediatrician",
+      Title: "Flu Season Alert",
+      specialty: "Vaccination Clinics Open Across the Country",
+    },
+    {
+      id: "3",
+      image:
+        "https://images.pexels.com/photos/5327656/pexels-photo-5327656.jpeg?auto=compress&cs=tinysrgb&w=1600",
+      Title: "Expert Q&A",
+      specialty: "Managing Chronic Pain with Dr. Smith",
+    },
+    {
+      id: "3",
+      image:
+        "https://images.pexels.com/photos/5327656/pexels-photo-5327656.jpeg?auto=compress&cs=tinysrgb&w=1600",
+      Title: "Telemedicine",
+      specialty: " Revolutionizing Patient Care in Rural Areas",
+    },
+    {
+      id: "3",
+      image:
+        "https://images.pexels.com/photos/5327656/pexels-photo-5327656.jpeg?auto=compress&cs=tinysrgb&w=1600",
+      Title: "Ebola Outbreak",
+      specialty: "Latest Updates and Response Efforts",
     },
   ];
 
@@ -39,8 +60,8 @@ const Recommendations = () => {
     const renderRecommendationCard = ({ item }) => (
         <View style={styles.recommendationCard}>
           <Image source={{ uri: item.image }} style={styles.recommendationImage} />
-          <Text style={styles.recommendationName}>{item.name}</Text>
-          <Text style={styles.recommendationSpecialty}>{item.specialty}</Text>
+          <Text style={styles.recommendationTitle}>{item.Title}</Text>
+          <Text style={styles.Recommendationspecialty}>{item.specialty}</Text>
           <TouchableOpacity style={styles.learnMoreButton}>
             <Text style={styles.learnMoreButtonText}>Learn More</Text>
           </TouchableOpacity>
@@ -48,12 +69,12 @@ const Recommendations = () => {
       );
 
   return (
-      <View style={styles.recommendationsContainer}>
-            <Text style={styles.recommendationsTitle}>
-              Personalized Recommendations
+      <View style={styles.RecommendationsContainer}>
+            <Text style={styles.RecommendationsTitle}>
+              News Feed
             </Text>
             {/* Personalized Recommendations Section */}
-            <View style={styles.recommendationsContainer}>
+            <View style={styles.RecommendationsContainer}>
               <ScrollView horizontal showsHorizontalScrollIndicator={false}>
                 {recommendedProviders.map((item) =>
                   renderRecommendationCard({ item })
@@ -67,10 +88,10 @@ const Recommendations = () => {
 export default Recommendations
 
 const styles = StyleSheet.create({
-    recommendationsContainer: {
+    RecommendationsContainer: {
         marginTop: 20,
       },
-      recommendationsTitle: {
+      RecommendationsTitle: {
         fontSize: 20,
         fontWeight: "bold",
       },
@@ -86,12 +107,12 @@ const styles = StyleSheet.create({
         height: 120,
         borderRadius: 10,
       },
-      recommendationName: {
+      recommendationTitle: {
         fontSize: 16,
         fontWeight: "bold",
         marginTop: 10,
       },
-      recommendationSpecialty: {
+      Recommendationspecialty: {
         fontSize: 14,
         color: "#666",
       },

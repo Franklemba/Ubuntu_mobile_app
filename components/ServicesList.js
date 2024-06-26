@@ -32,35 +32,7 @@ const ServicesList = () => {
       description: "Available 24/7",
       icon: "ambulance",
       color: "red",
-    },
-    {
-      id: "4",
-      title: "Pediatric Care",
-      description: "Child healthcare",
-      icon: "baby",
-      color: "pink",
-    },
-    {
-      id: "5",
-      title: "Specialist Consultation",
-      description: "Expert consultations",
-      icon: "user-md",
-      color: "purple",
-    },
-    {
-      id: "6",
-      title: "Radiology Services",
-      description: "Diagnostic services",
-      icon: "x-ray",
-      color: "orange",
-    },
-    {
-      id: "7",
-      title: "Pharmacy Services",
-      description: "Medication and prescriptions",
-      icon: "pills",
-      color: "teal",
-    },
+    }
   ];
 
   // Render individual service item

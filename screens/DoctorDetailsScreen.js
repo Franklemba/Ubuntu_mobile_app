@@ -22,8 +22,17 @@ const DoctorDetailsScreen = ({ route }) => {
     navigation.navigate("Doctor Lists", { doctor });
   };
 
+
+  const handleGoBack = () => {
+    navigation.goBack();
+  }
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
+    <View style={styles.backButton}>
+      <Button title="Go Back"  onPress={handleGoBack} />
+    </View>
+
       <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
         {!doctor ? (
           <View style={styles.noDataContainer}>
@@ -266,6 +275,9 @@ const styles = StyleSheet.create({
     height: 370,
     resizeMode: "cover",
   },
+  backButton:{
+    backgroundColor: "#00b894"
+  }
 });
 
 export default DoctorDetailsScreen;

@@ -19,8 +19,16 @@ import Recommendations from "../components/Recommendations";
 import DoctorsList from "../components/DoctorsList";
 import ServicesList from "../components/ServicesList";
 import TestimonialList from "../components/TestimonialList";
+import { useNavigation } from "@react-navigation/native";
 
 const HomeScreen = () => {
+  const navigation = useNavigation(); 
+
+  const handleViewForm = () => {
+    // Navigate to the form screen with the selected doctor's data
+      navigation.navigate('Consultation')
+  };
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <ScrollView>
@@ -59,8 +67,11 @@ const HomeScreen = () => {
                   placeholder="Find your doctor"
                 />
               </View>
-              <TouchableOpacity style={styles.bookButton}>
-                <Text style={styles.bookButtonText}>Book an Appointment</Text>
+              <TouchableOpacity 
+              style={styles.bookButton}
+              onPress = {handleViewForm}
+              >
+                <Text style={styles.bookButtonText}>Seek Consultation</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -75,7 +86,7 @@ const HomeScreen = () => {
               marginTop: 10,
             }}
           >
-            Featured
+            Featured Medical Specialties 
           </Text>
           {/* Featured Section */}
           <Featured />
@@ -83,12 +94,12 @@ const HomeScreen = () => {
           <Recommendations />
 
           {/* Our Doctors Section */}
-          <DoctorsList />
+          {/* <DoctorsList /> */}
         </View>
         {/* Services Section */}
         <ServicesList />
         {/* Testimonial Section */}
-        <TestimonialList />
+        {/* <TestimonialList /> */}
       </ScrollView>
     </SafeAreaView>
   );
@@ -102,7 +113,6 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 40,
     borderBottomRightRadius: 1,
   },
-
   topContainer: {
     flex: 1,
     alignItems: "center",
