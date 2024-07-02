@@ -37,7 +37,7 @@ const SignupScreen = () => {
   const navigation = useNavigation();
 
   const apiEndpoint =
-    " https://60e1-2409-4088-ae8d-1ce-4a8d-684c-10e6-3d84.ngrok.io/api/auth/signup";
+    "http://127.0.0.1:5000/auth/signup";
 
   const handleGoToSignin = () => {
     navigation.navigate("Signin");

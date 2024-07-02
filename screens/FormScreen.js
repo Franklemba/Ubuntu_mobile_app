@@ -1,52 +1,76 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Picker, Alert } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Picker, Alert, Platform, KeyboardAvoidingView, Modal, ActivityIndicator } from 'react-native';
 import { FontAwesome, MaterialIcons, Ionicons } from '@expo/vector-icons';
 import axios from 'axios';
-
+import { BlurView } from "expo-blur";
+import CustomButton from "../components/CustomButton";
+import { useNavigation } from "@react-navigation/native";
 const FormScreen = () => {
   const [name, setName] = useState('');
-  const [location, setLocation] = useState('');
+  // const [location, setLocation] = useState('');
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
   const [doctorType, setDoctorType] = useState('Cardiologist'); // Default doctor type
-  const [priceRange, setPriceRange] = useState(500); // Default price range
+  const navigation = useNavigation();
+  const apiEndpoint = "http://localhost:5000/consultation/submit";
 
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async () => {
+    try{
+      setIsLoading(true); // Start loading
 
-    if (!name || !location || !email || !message || !doctorType || !priceRange) {
-        Alert.alert('Validation Error', 'All fields are required');
-        return;
-      }
+      if (!name || !email || !message || !doctorType) {
+        Alert.alert("Error", "All fields are required.");
+        throw new Error("All fields are required.");
+        }
   
-      try {
-        const response = await axios.post('http://localhost:5000/submit', {
+        const fields = {
           name,
-          location,
           email,
           message,
           doctorType
-        });
-  
-        if (response.status === 201) {
-          Alert.alert('Success', 'Consultation submitted successfully');
-          // Reset the form
-          setName('');
-          setLocation('');
-          setEmail('');
-          setMessage('');
-          setDoctorType('Cardiologist');
         }
-      } catch (error) {
-        Alert.alert('Error', 'There was an error submitting your consultation');
+    
+          const response = await axios.post(apiEndpoint, fields);
+
+          if(response.status === 400 ){
+             console.log("error error")
+          }
+    
+          if (response.status === 201) {
+            Alert.alert("Success", "Consultation submitted successfully");
+            // Reset the form
+            setName('');
+            setEmail('');
+            setMessage('');
+            setDoctorType('Cardiologist');
+
+            Alert.alert("Success", "Consultation submitted successfully");
+            navigation.navigate("consultationRequest");
+          }
+        
+      // Handle form submission logic here
+      console.log("Form submitted with:", { name, email, message, doctorType });
+      // Example: You might want to submit this data to an API or perform other actions
+
+    }catch(error){
+      if (axios.isAxiosError(error)) {
+          console.log(error.message);
+      } else {
+        console.error("Request Error:", error.message);
+        // Handle other errors
       }
-    // Handle form submission logic here
-    console.log('Form submitted with:', { name, location, email, message, doctorType, priceRange });
-    // Example: You might want to submit this data to an API or perform other actions
+    } finally {
+      setIsLoading(false); // Stop loading
+    }
+
   };
 
+  
   return (
     <View style={styles.container}>
+ 
       <Text style={styles.title}>Seek consultation</Text>
       <View style={styles.inputContainer}>
         <FontAwesome name="user" size={24} color="#00b894" />
@@ -94,9 +118,28 @@ const FormScreen = () => {
           numberOfLines={4}
         />
       </View>
-      <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
+      {/* <TouchableOpacity 
+       style={styles.submitButton}
+       onPress={handleSubmit}
+       >
         <Text style={styles.submitButtonText}>Submit</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
+      <CustomButton title={"Submit"} onPress={handleSubmit} />
+      {isLoading && (
+            <Modal transparent={true} animationType="slide" visible={isLoading}>
+              <BlurView
+                intensity={100}
+                style={{
+                  flex: 1,
+                  justifyContent: "center",
+                  alignItems: "center",
+                  backgroundColor: "rgba(0, 184, 147, 0.103)",
+                }}
+              >
+                <ActivityIndicator size="large" color="#00b894" />
+              </BlurView>
+            </Modal>
+          )}
     </View>
   );
 };
