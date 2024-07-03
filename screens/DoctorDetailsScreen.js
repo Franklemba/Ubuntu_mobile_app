@@ -40,6 +40,7 @@ const DoctorDetailsScreen = ({ route }) => {
               source={require("../assets/dataNotFound.jpg")}
               style={styles.noDataImage}
             />
+
             <Text style={{ fontSize: 20, fontWeight: "bold" }}>
               Doctor Details Not Found
             </Text>
@@ -79,7 +80,7 @@ const DoctorDetailsScreen = ({ route }) => {
                   <Text style={styles.reviewsText}>
                     {doctor
                       ? `Reviews: ${doctor.reviews}`
-                      : "Reviews Not Found"}
+                      : "Reviews Not Found!"}
                   </Text>
                 </View>
               </View>
