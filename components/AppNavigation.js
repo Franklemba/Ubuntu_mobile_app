@@ -12,11 +12,28 @@ import ViewAppointmentsScreen from "../screens/ViewAppointmentsScreen";
 import FormScreen from "../screens/FormScreen";
 import DermaScreen from "../screens/specialistDetails/dermaScreen";
 import CardiologistScreen from "../screens/specialistDetails/CardiologistScreen";
+import ConsultationRequestScreen from "../screens/ConsultationRequestScreen";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
 
+const ConsultationStack = () =>{
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="consultationMain"
+        component={FormScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="consultationRequest"
+        component={ConsultationRequestScreen}
+        options={{ title: "Request Sent" }}
+      />
+    </Stack.Navigator>
+  );
+}
 
 const HomeStackNavigator = () => {
   return (
@@ -94,21 +111,21 @@ const AppNavigation = () => {
         }}
       />
       <Tab.Screen
-        name="Doctors list"
-        component={DoctorDetailsStack}
+        name="Consultation"
+        component={ConsultationStack}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="list" size={size} color={color} />
+            <MaterialIcons name="local-hospital" size={size} color={color} />
           ),
           headerShown: false,
         }}
       />
       <Tab.Screen
-        name="Consultation"
-        component={FormScreen}
+        name="Doctors list"
+        component={DoctorDetailsStack}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <MaterialIcons name="local-hospital" size={size} color={color} />
+            <Ionicons name="list" size={size} color={color} />
           ),
           headerShown: false,
         }}
