@@ -18,11 +18,11 @@ export default function App() {
     <SafeAreaProvider>
       <AuthProvider>
         <NavigationContainer>
-          {/* {!userAuthenticated ? (
+          {!userAuthenticated ? (
             <OnboardingNavigation updateAuthentication={updateAuthentication} />
           ) : (
-          )} */}
             <AppNavigation />
+          )}
         </NavigationContainer>
       </AuthProvider>
     </SafeAreaProvider>

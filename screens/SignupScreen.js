@@ -27,7 +27,7 @@ const SignupScreen = () => {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [dob, setDob] = useState("");
+  // const [dob, setDob] = useState("");
   const [mobileNumber, setMobileNumber] = useState("");
   const [accountType, setAccountType] = useState("patient");
   const [acceptTerms, setAcceptTerms] = useState(false);
@@ -67,7 +67,6 @@ const SignupScreen = () => {
         !email ||
         !password ||
         !confirmPassword ||
-        !dob ||
         !mobileNumber
       ) {
         Alert.alert("Error", "All fields are required.");
@@ -89,7 +88,7 @@ const SignupScreen = () => {
         name,
         email,
         password,
-        dob,
+        // dob,
         mobileNumber,
         accountType,
         acceptTerms,
@@ -102,7 +101,11 @@ const SignupScreen = () => {
       }
 
       // Make an API call to register the user
-      const response = await axios.post(apiEndpoint, payload);
+      const response = await axios.post(apiEndpoint, payload, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
 
       if (response.status === 201) {
         // Clear all the input fields
@@ -110,7 +113,7 @@ const SignupScreen = () => {
         setEmail("");
         setPassword("");
         setConfirmPassword("");
-        setDob("");
+        // setDob("");
         setMobileNumber("");
         setAccountType("patient"); // You can set it to the default value
         setSpecialty("");
@@ -118,8 +121,13 @@ const SignupScreen = () => {
         setAcceptTerms(false);
 
         // Registration successful
+        console.log(response);
         Alert.alert("Success", "Account created successfully!");
-        navigation.navigate("Home")
+        if (accountType === "doctor") {
+          navigation.navigate("DoctorHome"); 
+        } else {
+          navigation.navigate("ClientHome");
+        }
       } else {
         throw new Error("Registration failed");
       }
@@ -131,6 +139,7 @@ const SignupScreen = () => {
             error.response.data.message === "Email is already in use."
           ) {
             // Handle duplicate email error
+            console.error("Email is already in use.")
             Alert.alert("Error", "This email address is already in use.");
           } else {
             console.error(
@@ -203,7 +212,7 @@ const SignupScreen = () => {
             onChangeText={(text) => setConfirmPassword(text)}
             secureTextEntry
           />
-          <TextInput
+          {/* <TextInput
             style={styles.input}
             placeholder="Date of Birth"
             value={dob} // Use the dob state to display the selected date
@@ -224,7 +233,7 @@ const SignupScreen = () => {
                 }
               }}
             />
-          )}
+          )} */}
 
           <TextInput
             style={styles.input}

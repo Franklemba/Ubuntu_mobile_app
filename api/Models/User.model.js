@@ -18,7 +18,7 @@ const userSchema = new mongoose.Schema({
   },
   dob: {
     type: Date,
-    required: true,
+    required: false,
   },
   mobileNumber: {
     type: String,
@@ -39,6 +39,11 @@ const userSchema = new mongoose.Schema({
     type: Boolean,
     required: true,
   },
+  createdAt:{
+    type: Date,
+    required: true,
+    default: Date.now
+ }
 });
 
 module.exports = mongoose.model("User", userSchema);

@@ -10,7 +10,7 @@ exports.signup = async (req, res) => {
       name,
       email,
       password,
-      dob,
+      // dob,
       mobileNumber,
       accountType,
       specialty,
@@ -38,16 +38,18 @@ exports.signup = async (req, res) => {
       name,
       email,
       password: hashedPassword,
-      dob,
+      // dob,
       mobileNumber,
       accountType,
       specialty,
       licenseNumber,
       acceptTerms,
     });
+    
 
     await user.save();
-
+    console.log("Successfully saved to database");
+    console.log(user);
     res.status(201).json({ message: "Signup successful" });
   } catch (error) {
     res.status(500).json({ message: "Signup failed", error: error.message });
@@ -78,7 +80,10 @@ exports.signin = async (req, res) => {
     }
 
     // Return a success message or a JWT token for authentication
-    res.status(200).json({ message: "Login successful" });
+    res.status(200).json({ 
+      message: "Login successful",
+      user
+     });
   } catch (error) {
     res.status(500).json({ message: "Login failed", error: error.message });
   }

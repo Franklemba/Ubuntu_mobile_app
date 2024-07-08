@@ -6,7 +6,7 @@ require("dotenv").config();
 const mongoose = require("mongoose");
 
 
-// const authRoutes = require("./routes/authRoutes");
+const authRoute = require("./routes/authRoutes");
 // const userRoutes = require("./routes/userRoutes");#
 
 const consultationRoute = require("./routes/consutationRoute");
@@ -33,8 +33,9 @@ app.use(express.urlencoded({ extended: false }));
   
 
 // // Routes
-// app.use("/api/auth", authRoutes);
+// app.use("/api/auth", authRoute);
 // app.use("/api/users", userRoutes);
+app.use("/auth", authRoute);
 app.use("/consultation", consultationRoute);
 
 const PORT = process.env.PORT || 5000;

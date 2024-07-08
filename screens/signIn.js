@@ -44,7 +44,7 @@ const SignIn = () => {
   };
 
   const apiEndpoint =
-    "https://60e1-2409-4088-ae8d-1ce-4a8d-684c-10e6-3d84.ngrok.io/api/auth/signin";
+    "http://127.0.0.1:5000/auth/signin";
 
   const handleSignIn = async () => {
     if (!email || !password) {
@@ -72,9 +72,15 @@ const SignIn = () => {
         Alert.alert("Success", "Login successful!");
         updateAuthentication(true); // Update authentication state
         // Explicitly navigate to the "Home" screen
-        navigation.navigate("Home");
+        // console.log(response.data.user.accountType);
+        if(response.data.user.accountType == "patient"){
+          navigation.navigate("ClientHome");
+        }else{
+          navigation.navigate("DoctorHome"); 
+        }
       } else {
         setError("Email or password is incorrect.");
+        console.log("Email or password is incorrect");
       }
     } catch (error) {
       setError("Login failed. Please check your connection.");

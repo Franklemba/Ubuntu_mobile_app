@@ -12,26 +12,48 @@ const Consultation = require("../Models/consultationSchema")
 
 // Define Routes
 router.post('/submit', async (req, res) => {
-    const { name, email, message, doctorType } = req.body;
+    const { 
+       previousTreatments,
+        specialistAppointments,
+        medications,
+        allergies,
+        recentSkinTreatments,
+        healthConditions,
+        doctorType,
+        consultationReason
+     } = req.body;
 
       // res.send(req.body);
-      console.log(req.body);
+      
+      if (!previousTreatments || !specialistAppointments || !medications || !allergies || !recentSkinTreatments || !healthConditions || !doctorType || !consultationReason) {
+        
+        console.log('All fields are required');
+        return res.status(400).send('All fields are required');
   
-    // // Validate the data
-    if (!name  || !email || !message || !doctorType ) {
-      return res.status(400).send('All fields are required');
-    }
-  
-    // Save to database
-    const newConsultation = new Consultation({ name, email, message, doctorType });
-    try {
-      await newConsultation.save();
-      console.log("Successfully saved to database");
-      res.status(201).send('Consultation submitted successfully');
-    } catch (error) {
-      console.log("error")
-      res.status(500).send('Server error');
-    }
+      }else{
+        console.log(req.body);
+        
+          // Save to database
+          const newConsultation = new Consultation({ 
+             previousTreatments,
+              specialistAppointments,
+              medications,
+              allergies,
+              recentSkinTreatments,
+              healthConditions,
+              doctorType,
+              consultationReason
+           });
+           
+           try {
+             await newConsultation.save();
+             console.log("Successfully saved to database");
+             res.status(201).send('Consultation submitted successfully');
+           } catch (error) {
+             console.log("error")
+             res.status(500).send('Server error');
+           }
+      }
 
 
   });

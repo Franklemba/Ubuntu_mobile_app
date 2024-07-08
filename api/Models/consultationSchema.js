@@ -1,22 +1,37 @@
 const mongoose = require('mongoose');
 
 const consultationSchema = new mongoose.Schema({
-    name: {
-        type: String,
-        required: true
-    },
-    email: {
-        type: String,
-        required: true,
-        unique: true,
-    },
-    message: {
-        type: String,
-        required: true,
-    },
     doctorType:{
         type: String,
         required: true,
+    },
+    previousTreatments:{
+        type: String,
+        required: true,
+    },
+    medications:{
+        type: String,
+        required: true,
+    },
+    allergies:{
+        type: String,
+        required: true,
+    },
+    recentSkinTreatments:{
+        type: String,
+        required: true,
+    },
+    healthConditions:{
+        type: String,
+        required: true,
+    },
+    specialistAppointments:{
+        type: String,
+        required: true
+    },
+    consultationReason:{
+        type: String,
+        required: true
     },
     
   createdAt:{
