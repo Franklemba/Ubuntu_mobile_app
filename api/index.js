@@ -7,6 +7,7 @@ const mongoose = require("mongoose");
 
 
 const authRoute = require("./routes/authRoutes");
+const mainRoute = require("./routes/mainRoute");
 // const userRoutes = require("./routes/userRoutes");#
 
 const consultationRoute = require("./routes/consutationRoute");
@@ -35,6 +36,7 @@ app.use(express.urlencoded({ extended: false }));
 // // Routes
 // app.use("/api/auth", authRoute);
 // app.use("/api/users", userRoutes);
+app.use("/", mainRoute)
 app.use("/auth", authRoute);
 app.use("/consultation", consultationRoute);
 

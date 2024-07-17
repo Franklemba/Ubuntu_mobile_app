@@ -5,6 +5,9 @@ import SigninScreen from "../screens/signIn";
 import HomeScreen from "../screens/HomeScreen";
 import DocHomeScreen from "../screens/doctorScreens/DocHomeScreen";
 import { useAuth } from "../AuthContext"; // Import the useAuth hook
+import AppNavigation from "../components/AppNavigation";
+import DocAppNavigation from "./DocAppNavigation";
+
 
 const Stack = createStackNavigator();
 
@@ -26,12 +29,12 @@ const OnboardingNavigation = () => {
       />
       <Stack.Screen
         name="ClientHome"
-        component={HomeScreen}
+        component={AppNavigation}
         options={{ headerShown: false }}
       />
       <Stack.Screen
         name="DoctorHome"
-        component={DocHomeScreen}
+        component={DocAppNavigation}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>

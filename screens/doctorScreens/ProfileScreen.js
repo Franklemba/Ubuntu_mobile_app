@@ -13,8 +13,8 @@ import { Ionicons } from "@expo/vector-icons";
 import { Camera, useCameraPermissions } from "expo-camera";
 import * as ImagePicker from 'expo-image-picker';
 // import axios from "axios";
-import { useAuth } from "../AuthContext";
-import CustomButton from "../components/CustomButton";
+import { useAuth } from "../../AuthContext";
+import CustomButton from "../../components/CustomButton";
 
 const ProfileScreen = ({ navigation }) => {
   const [image, setImage] = useState(null);
@@ -26,7 +26,6 @@ const ProfileScreen = ({ navigation }) => {
       requestPermission();
     }
   }, [permission]);
-
 
   const handleSignOut = () => {
     updateAuthentication(false);
@@ -78,7 +77,7 @@ const ProfileScreen = ({ navigation }) => {
         </View>
         <TouchableOpacity onPress={() => setModalVisible(true)}>
           <Image
-            source={image ? { uri: image } : require("../assets/avatar.png")}
+            source={image ? { uri: image } : require("../../assets/avatar.png")}
             style={styles.profileImage}
           />
           <Ionicons
@@ -95,6 +94,8 @@ const ProfileScreen = ({ navigation }) => {
           <Text style={styles.infoText}>Location: Your Location</Text>
           <Text style={styles.infoText}>Phone: {userDetails.mobileNumber}</Text>
           <Text style={styles.infoText}>Date of Birth: {userDetails.dob}</Text>
+          <Text style={styles.infoText}>Speciality: {userDetails.specialty}</Text>
+          <Text style={styles.infoText}>License Number: {userDetails.licenseNumber}</Text>
           <Button title="Sign Out" onPress={handleSignOut} />
         </View>
       </View>

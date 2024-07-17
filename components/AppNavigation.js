@@ -13,6 +13,7 @@ import FormScreen from "../screens/FormScreen";
 import DermaScreen from "../screens/specialistDetails/dermaScreen";
 import CardiologistScreen from "../screens/specialistDetails/CardiologistScreen";
 import ConsultationRequestScreen from "../screens/ConsultationRequestScreen";
+import SigninScreen from "../screens/signIn";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();

@@ -12,37 +12,51 @@ import {
 import { BlurView } from "expo-blur";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { EvilIcons } from "@expo/vector-icons";
-import { FontAwesome5 } from "react-native-vector-icons";
-import { FontAwesome } from "react-native-vector-icons";
+// import { FontAwesome5 } from "react-native-vector-icons";
+// import { FontAwesome } from "react-native-vector-icons";
 import Featured from "../components/Featured";
 import Recommendations from "../components/Recommendations";
-import DoctorsList from "../components/DoctorsList";
+// import DoctorsList from "../components/DoctorsList";
 import ServicesList from "../components/ServicesList";
-import TestimonialList from "../components/TestimonialList";
+// import TestimonialList from "../components/TestimonialList";
 import { useNavigation } from "@react-navigation/native";
+import { useAuth } from "../AuthContext";
 
 const HomeScreen = () => {
   const navigation = useNavigation(); 
-
+  const { userDetails } = useAuth();
   const handleViewForm = () => {
     // Navigate to the form screen with the selected doctor's data
       navigation.navigate('Consultation')
   };
 
+  const handleViewProfile = () => {
+    // Navigate to the form screen with the selected doctor's data
+      navigation.navigate('Profile')
+  };
+
   return (
+    
     <SafeAreaView style={{ flex: 1 }}>
-      <ScrollView>
+
+     {userDetails ? (
+        <>
+        <ScrollView>
         <ImageBackground
           source={require("../assets/HomeGradientTopBG.jpg")}
           style={styles.topImgBG}
         >
           <View style={styles.topContainer}>
             <BlurView intensity={20} style={styles.blurContainer}>
-              <Text style={styles.greetingName}>Hello, Faith</Text>
+              <Text style={styles.greetingName}>Hello, {userDetails.name}</Text>
+              <TouchableOpacity 
+              onPress = {handleViewProfile}
+              >
               <Image
                 source={require("../assets/avatar.png")}
                 style={styles.avatar}
               />
+              </TouchableOpacity>
             </BlurView>
             <View style={styles.TextAndSearchContainer}>
               {/* Contact Information Section */}
@@ -101,6 +115,12 @@ const HomeScreen = () => {
         {/* Testimonial Section */}
         {/* <TestimonialList /> */}
       </ScrollView>
+        </>
+      ) : (
+        <Text style={styles.title}>Please log in to view your profile.</Text>
+      )}
+
+     
     </SafeAreaView>
   );
 };

@@ -70,7 +70,8 @@ const SignIn = () => {
       if (response.status === 200) {
         // Login successful
         Alert.alert("Success", "Login successful!");
-        updateAuthentication(true); // Update authentication state
+        const userDetails = response.data.user;
+        updateAuthentication(true, userDetails); // Update authentication state
         // Explicitly navigate to the "Home" screen
         // console.log(response.data.user.accountType);
         if(response.data.user.accountType == "patient"){
