@@ -7,13 +7,12 @@ import HomeScreen from "../screens/HomeScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 import DoctorListsScreen from "../screens/DoctorListsScreen";
 import DoctorDetailsScreen from "../screens/DoctorDetailsScreen";
-import AppointmentBookingScreen from "../screens/AppointmentBookingScreen";
-import ViewAppointmentsScreen from "../screens/ViewAppointmentsScreen";
 import FormScreen from "../screens/FormScreen";
 import DermaScreen from "../screens/specialistDetails/dermaScreen";
 import CardiologistScreen from "../screens/specialistDetails/CardiologistScreen";
 import ConsultationRequestScreen from "../screens/ConsultationRequestScreen";
-import SigninScreen from "../screens/signIn";
+import ChatScreen from '../screens/ChatScreen';
+import ChatDetail from '../screens/ChatDetail';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -31,6 +30,23 @@ const ConsultationStack = () =>{
         name="consultationRequest"
         component={ConsultationRequestScreen}
         options={{ title: "Request Sent" }}
+      />
+    </Stack.Navigator>
+  );
+}
+
+const ChatStack = () =>{
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="ChatScreen"
+        component={ChatScreen}
+        options={{ title: "Chats" }}
+      />
+      <Stack.Screen
+        name="ChatDetail"
+        component={ChatDetail}
+        options={{ title: "Chat detail" }}
       />
     </Stack.Navigator>
   );
@@ -101,16 +117,7 @@ const AppNavigation = () => {
         }}
       />
 
-      <Tab.Screen
-        name="Profile"
-        component={ProfileScreen}
-        options={{
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="person-circle-outline" size={size} color={color} />
-          ),
-          headerShown: false,
-        }}
-      />
+    
       <Tab.Screen
         name="Consultation"
         component={ConsultationStack}
@@ -122,29 +129,35 @@ const AppNavigation = () => {
         }}
       />
       <Tab.Screen
-        name="Doctors list"
-        component={DoctorDetailsStack}
+        name="Chat"
+        component={ChatStack}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="list" size={size} color={color} />
+            <Ionicons name="chatbox-ellipses" size={size} color={color} />
           ),
           headerShown: false,
         }}
       />
-      {/* <Tab.Screen
-        name="DoctorDetails"
-        component={DoctorDetailsScreen}
+      <Tab.Screen
+        name="Notifications"
+        component={DoctorDetailsStack}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <Ionicons
-              name="information-circle-outline"
-              size={size}
-              color={color}
-            />
+            <Ionicons name="notifications" size={size} color={color} />
           ),
           headerShown: false,
         }}
-      /> */}
+      />
+        <Tab.Screen
+        name="Profile"
+        component={ProfileScreen}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="person-circle-outline" size={size} color={color} />
+          ),
+          headerShown: false,
+        }}
+      />
 
       
     </Tab.Navigator>

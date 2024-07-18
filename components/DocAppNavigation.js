@@ -9,6 +9,8 @@ import ViewAppointmentsScreen from "../screens/doctorScreens/ViewAppointmentsScr
 import AppointmentDetailsScreen from "../screens/doctorScreens/AppointmentDetailsScreen";
 import PatientListScreen from "../screens/doctorScreens/PatientListScreen";
 import PatientDetailsScreen from "../screens/doctorScreens/PatientDetailsScreen";
+import ChatScreen from '../screens/ChatScreen';
+import ChatDetail from '../screens/ChatDetail';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -24,6 +26,23 @@ const HomeStackNavigator = () => {
     </Stack.Navigator>
   );
 };
+
+const ChatStack = () =>{
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="ChatScreen"
+        component={ChatScreen}
+        options={{ title: "Chats" }}
+      />
+      <Stack.Screen
+        name="ChatDetail"
+        component={ChatDetail}
+        options={{ title: "Chat detail" }}
+      />
+    </Stack.Navigator>
+  );
+}
 
 const AppointmentStack = () => {
   return (
@@ -80,22 +99,23 @@ const DocAppNavigation = () => {
           headerShown: false,
         }}
       />
-      <Tab.Screen
-        name="Profile"
-        component={ProfileScreen}
-        options={{
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="person-circle-outline" size={size} color={color} />
-          ),
-          headerShown: false,
-        }}
-      />
+     
       <Tab.Screen
         name="Appointments"
         component={AppointmentStack}
         options={{
           tabBarIcon: ({ color, size }) => (
             <MaterialIcons name="event-available" size={size} color={color} />
+          ),
+          headerShown: false,
+        }}
+      />
+      <Tab.Screen
+        name="Chat"
+        component={ChatStack}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="chatbox-ellipses" size={size} color={color} />
           ),
           headerShown: false,
         }}
@@ -110,6 +130,17 @@ const DocAppNavigation = () => {
           headerShown: false,
         }}
       />
+    <Tab.Screen
+        name="Profile"
+        component={ProfileScreen}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="person-circle-outline" size={size} color={color} />
+          ),
+          headerShown: false,
+        }}
+      />
+
     </Tab.Navigator>
   );
 };
