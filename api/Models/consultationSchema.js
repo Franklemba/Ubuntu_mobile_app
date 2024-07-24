@@ -33,7 +33,14 @@ const consultationSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    
+    patientId: {
+       type: String,
+       required: false
+    },
+    patientName: {
+        type: String,
+        required: false
+     },
   createdAt:{
     type: Date,
     required: true,
@@ -42,4 +49,4 @@ const consultationSchema = new mongoose.Schema({
 })
 
 
-module.exports = mongoose.model("ConsultationRequest", consultationSchema);
+module.exports = mongoose.model("consultations", consultationSchema);

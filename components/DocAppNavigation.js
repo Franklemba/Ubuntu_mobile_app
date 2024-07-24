@@ -23,7 +23,13 @@ const HomeStackNavigator = () => {
         component={HomeScreen}
         options={{ headerShown: false }}
       />
+      <Stack.Screen
+        name="PatientDetails"
+        component={PatientDetailsScreen}
+        options={{ headerShown: false }}
+      />
     </Stack.Navigator>
+    
   );
 };
 
@@ -75,13 +81,13 @@ const PatientListStack = () => {
           title: "Patients",
         }}
       />
-      <Stack.Screen
+      {/* <Stack.Screen
         name="PatientDetails"
         component={PatientDetailsScreen}
         options={{
           title: "Patient Details",
         }}
-      />
+      /> */}
     </Stack.Navigator>
   );
 };

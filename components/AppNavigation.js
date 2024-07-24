@@ -128,6 +128,7 @@ const AppNavigation = () => {
           headerShown: false,
         }}
       />
+
       <Tab.Screen
         name="Chat"
         component={ChatStack}
@@ -138,6 +139,7 @@ const AppNavigation = () => {
           headerShown: false,
         }}
       />
+
       <Tab.Screen
         name="Notifications"
         component={DoctorDetailsStack}
@@ -148,6 +150,7 @@ const AppNavigation = () => {
           headerShown: false,
         }}
       />
+      
         <Tab.Screen
         name="Profile"
         component={ProfileScreen}

@@ -20,7 +20,10 @@ router.post('/submit', async (req, res) => {
         recentSkinTreatments,
         healthConditions,
         doctorType,
-        consultationReason
+        consultationReason,
+        patientId,
+        patientName,
+
      } = req.body;
 
       // res.send(req.body);
@@ -31,7 +34,7 @@ router.post('/submit', async (req, res) => {
         return res.status(400).send('All fields are required');
   
       }else{
-        console.log(req.body);
+        
         
           // Save to database
           const newConsultation = new Consultation({ 
@@ -42,15 +45,18 @@ router.post('/submit', async (req, res) => {
               recentSkinTreatments,
               healthConditions,
               doctorType,
-              consultationReason
+              consultationReason,
+              patientId,
+              patientName,
            });
            
            try {
              await newConsultation.save();
              console.log("Successfully saved to database");
              res.status(201).send('Consultation submitted successfully');
+             console.log(newConsultation)
            } catch (error) {
-             console.log("error")
+             console.log(error);
              res.status(500).send('Server error');
            }
       }

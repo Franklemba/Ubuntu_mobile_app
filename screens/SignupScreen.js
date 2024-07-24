@@ -16,12 +16,15 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 import Icon from "react-native-vector-icons/FontAwesome"; // You can use other icons if preferred
 import CustomButton from "../components/CustomButton";
-
+import { useAuth } from "../AuthContext"; // Import the useAuth hook
 import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
 import { BlurView } from "expo-blur";
 
 const SignupScreen = () => {
+
+  const { updateAuthentication } = useAuth();
+
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -107,8 +110,10 @@ const SignupScreen = () => {
         }
       });
 
-      if (response.status === 201) {
+      if (response.status === 200) {
         // Clear all the input fields
+        const userDetails = response.data.user;
+        updateAuthentication(true, userDetails);
         setName("");
         setEmail("");
         setPassword("");

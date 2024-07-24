@@ -50,7 +50,7 @@ exports.signup = async (req, res) => {
     await user.save();
     console.log("Successfully saved to database");
     console.log(user);
-    res.status(201).json({ message: "Signup successful" });
+    res.status(200).json({ message: "Signup successful", user });
   } catch (error) {
     res.status(500).json({ message: "Signup failed", error: error.message });
   }

@@ -8,6 +8,8 @@ const mongoose = require("mongoose");
 
 const authRoute = require("./routes/authRoutes");
 const mainRoute = require("./routes/mainRoute");
+const userRoutes = require("./routes/userRoutes");
+
 // const userRoutes = require("./routes/userRoutes");#
 
 const consultationRoute = require("./routes/consutationRoute");
@@ -38,6 +40,7 @@ app.use(express.urlencoded({ extended: false }));
 // app.use("/api/users", userRoutes);
 app.use("/", mainRoute)
 app.use("/auth", authRoute);
+app.use("/users", userRoutes)
 app.use("/consultation", consultationRoute);
 
 const PORT = process.env.PORT || 5000;

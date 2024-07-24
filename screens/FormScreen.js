@@ -6,8 +6,11 @@ import { BlurView } from "expo-blur";
 import { SafeAreaView } from "react-native-safe-area-context";
 import CustomButton from "../components/CustomButton";
 import { useNavigation } from "@react-navigation/native";
+import { useAuth } from "../AuthContext";
 
 const FormScreen = () => {
+  const { userDetails } = useAuth();
+
   const [previousTreatments, setPreviousTreatments] = useState('');
   const [specialistAppointments, setSpecialistAppointments] = useState('');
   const [medications, setMedications] = useState('');
@@ -17,11 +20,12 @@ const FormScreen = () => {
   const [doctorType, setDoctorType] = useState('Cardiologist'); // Default doctor type
   const [consultationReason, setConsultation] = useState('');
   const navigation = useNavigation();
-  
+
   const apiEndpoint = "http://localhost:5000/consultation/submit";
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async () => {
+
     try {
       
       setIsLoading(true); // Start loading
@@ -39,7 +43,9 @@ const FormScreen = () => {
         recentSkinTreatments,
         healthConditions,
         doctorType,
-        consultationReason
+        consultationReason,
+        patientName : userDetails.name,
+        patientId : userDetails._id
       }
 
       const response = await axios.post(apiEndpoint, fields, {
@@ -65,13 +71,14 @@ const FormScreen = () => {
         console.log(response.status);
       }
 
-      console.log("Form submitted with:", { previousTreatments, specialistAppointments, medications, allergies, recentSkinTreatments,consultationReason ,healthConditions, doctorType });
+      console.log("Form submitted with:", { previousTreatments, specialistAppointments, medications, allergies, recentSkinTreatments,consultationReason ,healthConditions, doctorType});
 
          
 
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        console.error("Axios error:", error.message);
+        console.error("Axios error:", error);
+        console.error("Axios error response:", error.response);
         console.error("Response data:", error.response?.data);
         Alert.alert("Error", `Failed to submit consultation: ${error.message}`);
       } else {

@@ -8,24 +8,24 @@ const app = express();
 // app.use(cors());
 
 const Consultation = require("../Models/consultationSchema")
-const User = require("../Models/User.model");
 
 
 
 // Define Routes
-router.get('/user_details', (req, res) => {
-    const user = req.user;
+router.get('/consultationRequests', async (req, res) => {
+    
 
-    console.log(user);
     try{
 
+        const requests = await Consultation.find({});
         res.status(200).json({ 
-            message: "User details found",
-            user
+            message: "consultation requests found",
+            requests
             });
 
+
     }catch(err){
-        res.status(500).json({ message: "Login failed", error: err.message });
+        res.status(500).json({ message: "consultation fetch failed", error: err.message });
     }
 
   });
