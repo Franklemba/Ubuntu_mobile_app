@@ -21,6 +21,7 @@ const ProfileScreen = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [permission, requestPermission] = useCameraPermissions();
   const { userDetails, updateAuthentication } = useAuth();
+  
   useEffect(() => {
     if (permission && permission.status !== 'granted') {
       requestPermission();

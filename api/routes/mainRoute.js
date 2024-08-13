@@ -3,6 +3,8 @@ require("dotenv").config()
 const express = require("express");
 const router = express.Router();
 const app = express();
+const Chat = require('../Models/chatSchema');
+const Message = require('../Models/messageSchema');
 // const session = require('express-session');
 // const axios = require("axios");
 // app.use(cors());
@@ -30,6 +32,26 @@ router.get('/consultationRequests', async (req, res) => {
 
   });
 
+  
+  router.get('/chats', async (req, res) => {
+    try {
+      // Assuming you want to get all chat rooms
+      const chats = await Chat.find().populate('participants', 'name'); // Populate participant names
+      res.json(chats);
+    } catch (error) {
+      res.status(500).json({ error: 'An error occurred while fetching chats' });
+    }
+  });
+
+  router.get('/messages/:chatId', async (req, res) => {
+    try {
+      const { chatId } = req.params;
+      const messages = await Message.find({ chatId }).populate('sender', 'name');
+      res.json(messages);
+    } catch (error) {
+      res.status(500).json({ error: 'An error occurred while fetching messages' });
+    }
+  });
 
 
 
