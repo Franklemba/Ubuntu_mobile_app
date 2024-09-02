@@ -41,11 +41,28 @@ const consultationSchema = new mongoose.Schema({
         type: String,
         required: false
      },
+     doctorName: {
+        type: String,
+        required: false,
+        default:''
+     },
   createdAt:{
     type: Date,
     required: true,
     default: Date.now
- }
+ },
+    doctorId: {
+        type: String,
+        required: false
+     },
+     messages:{
+       type: Array,
+        default:[]
+     },
+     lastMessageRead:{
+        type: Boolean,
+        default:false
+     }
 })
 
 

@@ -6,6 +6,7 @@ import { useState } from "react";
 import OnboardingNavigation from "./components/OnboardingNavigation";
 import { AuthProvider } from "./AuthContext";
 
+
 export default function App() {
   const [userAuthenticated, setUserAuthenticated] = useState(false);
 

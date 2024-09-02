@@ -9,17 +9,17 @@ const Message = require('../Models/messageSchema');
 // const axios = require("axios");
 // app.use(cors());
 
-const Consultation = require("../Models/consultationSchema")
+const Consultation = require("../Models/consultation.model")
 
 
 
 // Define Routes
 router.get('/consultationRequests', async (req, res) => {
     
-
+console.log('my doctor Id', req._id)
     try{
 
-        const requests = await Consultation.find({});
+        const requests = await Consultation.find({doctorId:''});
         res.status(200).json({ 
             message: "consultation requests found",
             requests
