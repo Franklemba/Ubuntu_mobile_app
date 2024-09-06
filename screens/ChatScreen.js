@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
 import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
+import { useAuth } from "../AuthContext";
 
 const demoChats = [
     {
@@ -32,31 +33,47 @@ const demoChats = [
 const ChatScreen = () => {
   const [chats, setChats] = useState([]);
   const navigation = useNavigation();
-
+  const { userDetails } = useAuth();
   useEffect(() => {
     // Fetch chat list from backend
-    // axios.get('http://localhost:5000/chats')
-    //   .then(response => {
-    //     setChats(response.data);
-    //   })
-    //   .catch(error => {
-    //     console.error('Error fetching chats:', error);
-    //   });
-    setChats(demoChats);
+    axios.get(`http://localhost:5000/consultation/get/${userDetails._id}`)
+      .then(response => {
+        console.log(response.data.consultations)
+        setChats(response.data.consultations);
+      })
+      .catch(error => {
+        console.error('Error fetching chats:', error);
+      });
+    // setChats(demoChats);
 
   }, []);
 
   const renderItem = ({ item }) => (
     <TouchableOpacity 
       style={styles.chatItem} 
-      onPress={() => navigation.navigate('ChatDetail', { chatId: item.id })}>
-       
-      <Text style={styles.chatName}>{item.name}</Text>
-      {item.unreadMessages > 0 && (
+      onPress={() => navigation.navigate('ChatDetail', { chatId: item._id,item })}>
+      <View style={{flexDirection:'column'}}>
+      {
+        userDetails.accountType=='patient'?
+        <View >
+       <Text style={styles.chatName}>Doctor Name: {item.doctorName}</Text>
+       </View>:
+       <View>
+       <Text style={styles.chatName}>Patient Name: {item.patientName}</Text>
+       </View> 
+      }
+       <View>
+       <Text style={styles.chatName}>Consultation Reason: {item.consultationReason}</Text>
+       </View>
+      </View>
+     
+      {item.doctorName==''||item.doctorName==undefined? (
         <View style={styles.unreadBadge}>
-          <Text style={styles.unreadText}>{item.unreadMessages}</Text>
+          
         </View>
-      )}
+      ):<View style={styles.readBadge}>
+
+      </View>}
     </TouchableOpacity>
   );
 
@@ -64,7 +81,7 @@ const ChatScreen = () => {
     <View style={styles.container}>
       <FlatList
         data={chats}
-        keyExtractor={item => item.id.toString()}
+        keyExtractor={item => item._id.toString()}
         renderItem={renderItem}
       />
     </View>
@@ -91,8 +108,16 @@ const styles = StyleSheet.create({
     backgroundColor: 'red',
     borderRadius: 15,
     padding: 5,
-    minWidth: 30,
-    alignItems: 'center',
+    minWidth: 25,
+    minHeight:25,
+    alignItems: 'center'
+  },readBadge: {
+    backgroundColor: 'lime',
+    borderRadius: 15,
+    padding: 5,
+    minWidth: 25,
+    minHeight:25,
+    alignItems: 'center'
   },
   unreadText: {
     color: 'white',

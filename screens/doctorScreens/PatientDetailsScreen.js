@@ -13,27 +13,36 @@ import { useNavigation } from "@react-navigation/native";
 import CustomButton from "../../components/CustomButton";
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useAuth } from "../../AuthContext";
+
 
 const PatientDetailsScreen = ({route}) => {
+  const navigation = useNavigation(); // Initialize navigation
 
-  const [userDetails, setUserDetails] = useState([]);
-
+  const { userDetails } = useAuth();
   const { consultation } = route.params ?? {};
   useEffect(() => {
+    console.log('sdis consultation'+consultation)
     // Fetch consultation requests from backend
 
-    axios.get(`http://localhost:5000/users/${consultation.patientId}`)
-      .then(response => {
-        console.log(response.data)
-        // Check if the response is an array
-        setUserDetails(response.data.user);
-      })
-      .catch(error => {
-        console.error('Error fetching user details:', error);
-      });
+    
   }, []);
 
-  const navigation = useNavigation(); // Initialize navigation
+
+  const handleAccept = () =>{
+    axios.post(`http://localhost:5000/consultation/accept/${consultation._id}`, {  
+      doctorId:userDetails._id,
+      doctorName:userDetails.name
+     })
+      .then(response => {
+        console.log(response.data.consultation)
+        navigation.navigate('Chat', { chatId: response.data.consultation._id,item:response.data.consultation })
+      })
+      .catch(error => {
+        console.error('Error sending message:', error);
+      });
+
+  }
 
   const handleGoBack = () => {
     navigation.goBack();
@@ -122,7 +131,7 @@ const PatientDetailsScreen = ({route}) => {
 
             {/* Button to Book an Appointment */}
             <View style={styles.buttonContainer}>
-              <TouchableOpacity style={styles.bookAppointmentButton}>
+              <TouchableOpacity       onPress={handleAccept} style={styles.bookAppointmentButton}>
                 <Text style={styles.bookAppointmentText}>Accept Consultation</Text>
               </TouchableOpacity>
             </View>

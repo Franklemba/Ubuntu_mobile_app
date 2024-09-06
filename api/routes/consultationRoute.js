@@ -6,8 +6,17 @@ const app = express();
 // const axios = require("axios");
 // app.use(cors());
 
-const Consultation = require("../Models/consultationSchema")
+const Consultation = require("../Models/consultation.model")
 
+const consultationController = require("../controller/consultation.controller");
+
+router.get("/get/:userId", consultationController.getMyConsultations);
+
+router.post("/sendMessage/:chatId", consultationController.sendMessage);
+
+router.get("/getMessages/:chatId", consultationController.getMessages);
+
+router.post("/accept/:consultationId", consultationController.acceptConsultation);
 
 
 // Define Routes
@@ -23,8 +32,7 @@ router.post('/submit', async (req, res) => {
         consultationReason,
         patientId,
         patientName,
-
-     } = req.body;
+           } = req.body;
 
       // res.send(req.body);
       
@@ -48,6 +56,8 @@ router.post('/submit', async (req, res) => {
               consultationReason,
               patientId,
               patientName,
+              doctorId:'',
+              doctorName:''
            });
            
            try {

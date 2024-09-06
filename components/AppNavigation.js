@@ -98,6 +98,7 @@ const DoctorDetailsStack = () => (
           headerShown: false,
       }}
     />
+    
     {/* Add more screens related to doctor details if needed */}
   </Stack.Navigator>
 );
