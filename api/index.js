@@ -24,25 +24,11 @@ const io = new Server(server, {
 });
 
 // Connect to MongoDB
-<<<<<<< HEAD
-
-mongoose.connect("mongodb://localhost:27017/Ubuntu_app", { useNewUrlParser: true })
-
-.then(() => {
-  console.log('Database is connected');
-})
-.catch((err) => console.log('Error connecting to database ', err));
-
-
-// app.use(bodyParser.json());
-
-=======
 mongoose.connect("mongodb://127.0.0.1:27017/Ubuntu_app", { useNewUrlParser: true })
   .then(() => {
     console.log('Database is connected');
   })
   .catch((err) => console.log('Error connecting to database ', err));
->>>>>>> ccff844a00ea4969bd500d708754c1139f65a04c
 
 app.use(cors());
 app.use(express.json());

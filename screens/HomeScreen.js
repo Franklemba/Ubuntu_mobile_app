@@ -74,13 +74,7 @@ const HomeScreen = () => {
                 </TouchableOpacity>
               </View> */}
               {/* <Text style={styles.greetingSearch}>Find your doctor</Text> */}
-              <View style={styles.searchContainer}>
-                <EvilIcons name="search" size={24} color="#00b894" />
-                <TextInput
-                  style={styles.input}
-                  placeholder="Find your doctor"
-                />
-              </View>
+              
               <TouchableOpacity 
               style={styles.bookButton}
               onPress = {handleViewForm}
