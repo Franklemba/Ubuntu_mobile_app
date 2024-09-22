@@ -195,6 +195,9 @@ const styles = StyleSheet.create({
     color: "#00b894",
     fontSize: 16,
   },
+  errorText: {
+    color: "red"
+  }
 });
 
 export default SignIn;

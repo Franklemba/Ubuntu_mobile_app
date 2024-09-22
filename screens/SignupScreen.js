@@ -36,6 +36,8 @@ const SignupScreen = () => {
   const [acceptTerms, setAcceptTerms] = useState(false);
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [chosenDate, setChosenDate] = useState(new Date());
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const navigation = useNavigation();
 
@@ -72,16 +74,19 @@ const SignupScreen = () => {
         !confirmPassword ||
         !mobileNumber
       ) {
+        setError("All fields are required.");
         Alert.alert("Error", "All fields are required.");
         throw new Error("All fields are required.");
       }
 
       if (password !== confirmPassword) {
+        setError("Passwords do not match.");
         Alert.alert("Error", "Passwords do not match.");
         throw new Error("Passwords do not match.");
       }
 
       if (!acceptTerms) {
+        setError("You must accept the terms and conditions.");
         Alert.alert("Error", "You must accept the terms and conditions.");
         throw new Error("You must accept the terms and conditions.");
       }
@@ -146,6 +151,7 @@ const SignupScreen = () => {
             // Handle duplicate email error
             console.error("Email is already in use.")
             Alert.alert("Error", "This email address is already in use.");
+            setError("This email address is already in use.")
           } else {
             console.error(
               "Server Error:",
@@ -157,6 +163,7 @@ const SignupScreen = () => {
         } else {
           console.error("Network Error:", error.message);
           Alert.alert("Network Error", "Please check your connection.");
+          setError("Please check your connection.")
         }
       } else {
         console.error("Request Error:", error.message);
@@ -323,6 +330,7 @@ const SignupScreen = () => {
               </BlurView>
             </Modal>
           )}
+          {error !== "" && <Text style={styles.errorText}>{error}</Text>}
           <TouchableOpacity onPress={handleGoToSignin} style={styles.link}>
             <Text style={styles.linkText}>
               Already have an account? Sign In
@@ -424,6 +432,9 @@ const styles = StyleSheet.create({
     color: "#00b894",
     fontSize: 16,
   },
+  errorText: {
+    color: "red"
+  }
 });
 
 export default SignupScreen;
