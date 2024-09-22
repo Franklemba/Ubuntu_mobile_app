@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect }  from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from '@react-navigation/stack';
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
@@ -14,6 +14,7 @@ import ConsultationRequestScreen from "../screens/ConsultationRequestScreen";
 import ChatScreen from '../screens/ChatScreen';
 import ChatDetail from '../screens/ChatDetail';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
+import { useAuth } from "../AuthContext";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -37,6 +38,7 @@ const ConsultationStack = () =>{
 }
 
 const ChatStack = () =>{
+  
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -106,6 +108,31 @@ const DoctorDetailsStack = () => (
 
 
 const AppNavigation = () => {
+  const [unreadMessagesCount, setUnreadMessagesCount] = useState(0);
+  const { userDetails } = useAuth();
+  const fetchUnreadMessages = async () => {
+    try {
+      const response = await fetch(`http://localhost:5000/consultation/messageCount/${userDetails._id}`); // Replace with your API URL
+      const data = await response.json();
+
+   console.log(data)
+        setUnreadMessagesCount(data);
+      
+    } catch (error) {
+      console.error('Error fetching unread messages:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchUnreadMessages();
+
+    // Optionally, use a polling mechanism to regularly check for new messages
+    const interval = setInterval(() => {
+      fetchUnreadMessages();
+    }, 5000); // Check every 5 seconds
+
+    return () => clearInterval(interval); // Cleanup on component unmount
+  }, []);
   return (
     <Tab.Navigator>
       <Tab.Screen
@@ -128,6 +155,7 @@ const AppNavigation = () => {
             <MaterialIcons name="local-hospital" size={size} color={color} />
           ),
           headerShown: false,
+          
         }}
       />
 
@@ -139,9 +167,10 @@ const AppNavigation = () => {
             <Ionicons name="chatbox-ellipses" size={size} color={color} />
           ),
           headerShown: false,
+          tabBarBadge: unreadMessagesCount // Show badge if there are unread messages
+      
         }}
       />
-
       <Tab.Screen
         name="Doctors"
         component={DoctorDetailsStack}

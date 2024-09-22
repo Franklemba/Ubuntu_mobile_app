@@ -4,28 +4,6 @@ import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
 import { useAuth } from "../AuthContext";
 
-const demoChats = [
-    {
-      id: 1,
-      name: 'John Doe',
-      unreadMessages: 3,
-    },
-    {
-      id: 2,
-      name: 'Jane Smith',
-      unreadMessages: 0,
-    },
-    {
-      id: 3,
-      name: 'Mike Johnson',
-      unreadMessages: 1,
-    },
-    {
-      id: 4,
-      name: 'Emily Brown',
-      unreadMessages: 2,
-    },
-  ];
 
 
 
@@ -107,16 +85,16 @@ const styles = StyleSheet.create({
   unreadBadge: {
     backgroundColor: 'red',
     borderRadius: 15,
-    padding: 5,
-    minWidth: 25,
-    minHeight:25,
+    padding: 4,
+    minWidth: 10,
+    minHeight:10,
     alignItems: 'center'
   },readBadge: {
     backgroundColor: 'lime',
     borderRadius: 15,
-    padding: 5,
-    minWidth: 25,
-    minHeight:25,
+    padding: 4,
+    minWidth: 10,
+    minHeight:10,
     alignItems: 'center'
   },
   unreadText: {

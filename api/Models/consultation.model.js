@@ -70,7 +70,15 @@ const consultationSchema = new mongoose.Schema({
      lastMessageRead:{
         type: Boolean,
         default:false
-     }
+     },
+    patientMessageCount:{
+        type:Number,
+        default:0
+    }   ,
+    doctorMessageCount:{
+        type:Number,
+        default:0
+    }   
 })
 
 
