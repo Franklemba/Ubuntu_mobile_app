@@ -30,7 +30,7 @@ const DoctorCard = ({ doctor }) => {
             onPress={handleViewProfile}
           >
             <Text style={styles.learnMoreButtonText}>View Profile</Text>
-            <Icon name="ios-arrow-forward" size={24} color="#fff" />
+            {/* <Icon name="ios-arrow-forward" size={24} color="#fff" /> */}
           </TouchableOpacity>
         </View>
       </View>

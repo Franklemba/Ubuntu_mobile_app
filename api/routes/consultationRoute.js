@@ -22,7 +22,7 @@ router.post("/accept/:consultationId", consultationController.acceptConsultation
 // Define Routes
 router.post('/submit', async (req, res) => {
     const { 
-       previousTreatments,
+        previousTreatments,
         specialistAppointments,
         medications,
         allergies,
@@ -32,6 +32,8 @@ router.post('/submit', async (req, res) => {
         consultationReason,
         patientId,
         patientName,
+        patientEmail,
+        patientPhone
            } = req.body;
 
       // res.send(req.body);
@@ -57,7 +59,9 @@ router.post('/submit', async (req, res) => {
               patientId,
               patientName,
               doctorId:'',
-              doctorName:''
+              doctorName:'',
+              patientEmail,
+              patientPhone
            });
            
            try {

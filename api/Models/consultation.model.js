@@ -46,6 +46,14 @@ const consultationSchema = new mongoose.Schema({
         required: false,
         default:''
      },
+     patientEmail: {
+         type: String, 
+         required: false, 
+     },
+     patientPhone: {
+          type: String,
+          required: false
+     },
   createdAt:{
     type: Date,
     required: true,

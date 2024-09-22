@@ -13,6 +13,7 @@ import CardiologistScreen from "../screens/specialistDetails/CardiologistScreen"
 import ConsultationRequestScreen from "../screens/ConsultationRequestScreen";
 import ChatScreen from '../screens/ChatScreen';
 import ChatDetail from '../screens/ChatDetail';
+import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -142,11 +143,11 @@ const AppNavigation = () => {
       />
 
       <Tab.Screen
-        name="Notifications"
+        name="Doctors"
         component={DoctorDetailsStack}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="notifications" size={size} color={color} />
+            <FontAwesome6 name="user-doctor" size={size} color= {color} />
           ),
           headerShown: false,
         }}

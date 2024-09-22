@@ -106,7 +106,7 @@ const DocAppNavigation = () => {
         }}
       />
      
-      <Tab.Screen
+      {/* <Tab.Screen
         name="Appointments"
         component={AppointmentStack}
         options={{
@@ -115,7 +115,7 @@ const DocAppNavigation = () => {
           ),
           headerShown: false,
         }}
-      />
+      /> */}
       <Tab.Screen
         name="Chat"
         component={ChatStack}
@@ -126,7 +126,7 @@ const DocAppNavigation = () => {
           headerShown: false,
         }}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         name="Patients"
         component={PatientListStack}
         options={{
@@ -135,7 +135,7 @@ const DocAppNavigation = () => {
           ),
           headerShown: false,
         }}
-      />
+      /> */}
     <Tab.Screen
         name="Profile"
         component={ProfileScreen}

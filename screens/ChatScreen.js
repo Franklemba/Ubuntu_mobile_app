@@ -56,14 +56,14 @@ const ChatScreen = () => {
       {
         userDetails.accountType=='patient'?
         <View >
-       <Text style={styles.chatName}>Doctor Name: {item.doctorName}</Text>
+       <Text style={styles.chatName}>Doctor: {item.doctorName}</Text>
        </View>:
        <View>
        <Text style={styles.chatName}>Patient Name: {item.patientName}</Text>
        </View> 
       }
        <View>
-       <Text style={styles.chatName}>Consultation Reason: {item.consultationReason}</Text>
+       <Text style={styles.chatName}>Consultation: {item.consultationReason}</Text>
        </View>
       </View>
      

@@ -1,12 +1,17 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Picker, Alert, Modal, ActivityIndicator, ScrollView } from 'react-native';
-import { FontAwesome, MaterialIcons, Ionicons } from '@expo/vector-icons';
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
+import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
+import AntDesign from '@expo/vector-icons/AntDesign';
+import Fontisto from '@expo/vector-icons/Fontisto';
 import axios from 'axios';
 import { BlurView } from "expo-blur";
 import { SafeAreaView } from "react-native-safe-area-context";
 import CustomButton from "../components/CustomButton";
 import { useNavigation } from "@react-navigation/native";
 import { useAuth } from "../AuthContext";
+
 
 const FormScreen = () => {
   const { userDetails } = useAuth();
@@ -45,7 +50,9 @@ const FormScreen = () => {
         doctorType,
         consultationReason,
         patientName : userDetails.name,
-        patientId : userDetails._id
+        patientId : userDetails._id,
+        patientEmail : userDetails.email,
+        patientPhone : userDetails.mobileNumber
       }
 
       const response = await axios.post(apiEndpoint, fields, {
@@ -97,6 +104,7 @@ const FormScreen = () => {
             <Text style={styles.title}>Seek consultation</Text>
             <View style={styles.inputContainer}>
               <MaterialIcons name="local-hospital" size={24} color="#00b894" />
+              
               <Picker
                 style={[styles.input, { height: 50 }]}
                 selectedValue={doctorType}
@@ -110,7 +118,7 @@ const FormScreen = () => {
               </Picker>
             </View>
             <View style={styles.inputContainer}>
-              <Ionicons name="ios-chatbubbles" size={24} color="#00b894" />
+              <Fontisto name="surgical-knife" size={24} color="#00b894" />
               <TextInput
                 style={[styles.input, { height: 100 }]}
                 placeholder="Previous treatments or surgeries"
@@ -121,7 +129,7 @@ const FormScreen = () => {
               />
             </View>
             <View style={styles.inputContainer}>
-              <Ionicons name="ios-chatbubbles" size={24} color="#00b894" />
+              {/* <Ionicons name="ios-chatbubbles" size={24} color="#00b894" /> */}
               <TextInput
                 style={[styles.input, { height: 100 }]}
                 placeholder="Specialist appointments"
@@ -132,7 +140,8 @@ const FormScreen = () => {
               />
             </View>
             <View style={styles.inputContainer}>
-              <Ionicons name="ios-chatbubbles" size={24} color="#00b894" />
+              {/* <Ionicons name="ios-chatbubbles" size={24} color="#00b894" /> */}
+              <FontAwesome6 name="user-doctor" size={36} color="black" />
               <TextInput
                 style={[styles.input, { height: 100 }]}
                 placeholder="Medications"
@@ -143,7 +152,8 @@ const FormScreen = () => {
               />
             </View>
             <View style={styles.inputContainer}>
-              <Ionicons name="ios-chatbubbles" size={24} color="#00b894" />
+              {/* <Ionicons name="ios-chatbubbles" size={24} color="#00b894" /> */}
+              <FontAwesome5 name="allergies" size={24} color="00b894" />
               <TextInput
                 style={[styles.input, { height: 100 }]}
                 placeholder="Allergies"
@@ -154,7 +164,8 @@ const FormScreen = () => {
               />
             </View>
             <View style={styles.inputContainer}>
-              <Ionicons name="ios-chatbubbles" size={24} color="#00b894" />
+              {/* <Ionicons name="ios-chatbubbles" size={24} color="#00b894" /> */}
+              <AntDesign name="skin" size={24} color="00b894" />
               <TextInput
                 style={[styles.input, { height: 100 }]}
                 placeholder="Recent skin treatments"
@@ -165,7 +176,8 @@ const FormScreen = () => {
               />
             </View>
             <View style={styles.inputContainer}>
-              <Ionicons name="ios-chatbubbles" size={24} color="#00b894" />
+              {/* <Ionicons name="ios-chatbubbles" size={24} color="#00b894" /> */}
+              <MaterialIcons name="health-and-safety" size={24} color="00b894" />
               <TextInput
                 style={[styles.input, { height: 100 }]}
                 placeholder="Current health conditions"
@@ -176,7 +188,7 @@ const FormScreen = () => {
               />
             </View>
             <View style={styles.inputContainer}>
-              <Ionicons name="ios-chatbubbles" size={24} color="#00b894" />
+              {/* <Ionicons name="ios-chatbubbles" size={24} color="#00b894" /> */}
               <TextInput
                 style={[styles.input, { height: 100 }]}
                 placeholder="Reason for consultation"
