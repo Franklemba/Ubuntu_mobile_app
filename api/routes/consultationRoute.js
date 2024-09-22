@@ -14,7 +14,7 @@ router.get("/get/:userId", consultationController.getMyConsultations);
 
 router.post("/sendMessage/:chatId", consultationController.sendMessage);
 
-router.get("/getMessages/:chatId", consultationController.getMessages);
+router.get("/getMessages/:chatId/:userId", consultationController.getMessages);
 
 router.post("/accept/:consultationId", consultationController.acceptConsultation);
 
@@ -22,7 +22,7 @@ router.post("/accept/:consultationId", consultationController.acceptConsultation
 // Define Routes
 router.post('/submit', async (req, res) => {
     const { 
-       previousTreatments,
+        previousTreatments,
         specialistAppointments,
         medications,
         allergies,
@@ -32,6 +32,8 @@ router.post('/submit', async (req, res) => {
         consultationReason,
         patientId,
         patientName,
+        patientEmail,
+        patientPhone
            } = req.body;
 
       // res.send(req.body);
@@ -57,7 +59,9 @@ router.post('/submit', async (req, res) => {
               patientId,
               patientName,
               doctorId:'',
-              doctorName:''
+              doctorName:'',
+              patientEmail,
+              patientPhone
            });
            
            try {
@@ -75,6 +79,32 @@ router.post('/submit', async (req, res) => {
   });
 
 
+  router.get("/messageCount/:userId",async(req, res)=>{
+    //get consulattions from doctor 
+    const userId =req.params.userId
+    const consultations = await Consultation.find({
+      $or: [
+        { patientId: userId },
+        { doctorId: userId }
+      ]
+    });
+      console.log(req.params.userId + "needs message count" )
+      let totalMessageCount = 0;
+
+      // Sum the unread messages for the user across all consultations
+      consultations.forEach(consultation => {
+        // If the user is the patient, sum their unread messages
+        if (consultation.patientId == userId) {
+          totalMessageCount += consultation.patientMessageCount;
+        }
+  
+        // If the user is the doctor, sum their unread messages
+        if (consultation.doctorId == userId) {
+          totalMessageCount += consultation.doctorMessageCount;
+        }
+      });
+      res.json(totalMessageCount)
+  });
 
 
 module.exports = router;

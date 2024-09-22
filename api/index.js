@@ -54,9 +54,9 @@ io.on('connection', async(socket) => {
   socket.on('sendMessage', async(data) => {
     console.log(data)
     const newMessage = data.message;
-
-    console.log(data.chatId);
-    console.log(newMessage);
+const senderType = data.message.sender
+    // console.log(data.chatId);
+    console.log(senderType);
 
     // Find the consultation document by chatId
     const consultation = await Consultation.findById(data.chatId);
@@ -65,10 +65,23 @@ io.on('connection', async(socket) => {
       socket.emit('invalidChatId')
       return 
     }
-
+ 
     // Append the new message to the messages array
     consultation.messages.push(newMessage);
+    consultation.lastMessageRead = false
+    // Increment unread message count for the recipient
+ // Increment unread message count for the recipient
+ if (senderType === 'doctor') {
+  console.log('doctor sent message');
+  consultation.patientMessageCount += 1;  // Increment unread count for patient
+} else if (senderType === 'patient') {
+  console.log('patient sent message');
+  consultation.doctorMessageCount += 1;  // Increment unread count for doctor
+}
+
+
     // Save the updated consultation document
+
     await consultation.save();
     io.to(data.chatId).emit('incomingMessage', newMessage)
 

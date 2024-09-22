@@ -19,7 +19,7 @@ const ChatDetail = ({ route }) => {
 
   useEffect(() => {
     // Fetch chat messages from backend and join the chat room via socket
-    axios.get(`http://localhost:5000/consultation/getMessages/${chatId}`)
+    axios.get(`http://localhost:5000/consultation/getMessages/${chatId}/${userDetails._id}`)
       .then(response => {
         setMessages(response.data.messages);
         socket.emit('joinSocket', chatId);

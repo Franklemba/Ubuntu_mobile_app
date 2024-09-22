@@ -86,3 +86,18 @@ exports.deleteUser = async (req, res) => {
       .json({ message: "Error deleting user", error: error.message });
   }
 };
+
+
+// exports.getDoctors = async(req,res)=>{
+  
+//     // try {
+//       // Fetch all users with accountType 'doctor'
+//       const doctors = await User.find({ accountType: "doctor" });
+//       console.log('fetching doctors')
+//       res.status(200).json({ success: true, doctors });
+//     // } catch (error) {
+//       console.error("Error fetching doctors:", error);
+//       res.status(500).json({ success: false, message: "Failed to fetch doctors", error: error.message });
+//     // }
+  
+// }

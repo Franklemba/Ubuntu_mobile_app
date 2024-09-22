@@ -30,7 +30,7 @@ const ProfileScreen = ({ navigation }) => {
 
   const handleSignOut = () => {
     updateAuthentication(false);
-    navigation.navigate("Signin");; // Adjust according to your navigation
+    navigation.navigate("Signin"); // Adjust according to your navigation
   };
 
   const pickImage = async () => {
@@ -72,7 +72,7 @@ const ProfileScreen = ({ navigation }) => {
             style={styles.backButton}
             onPress={() => navigation.goBack()} // Use the navigation prop
           >
-            <Ionicons name="ios-arrow-back" size={30} color="#555" />
+            {/* <Ionicons name="ios-arrow-back" size={30} color="#555" /> */}
           </TouchableOpacity>
           <Text style={styles.headerText}>My Profile</Text>
         </View>
@@ -81,12 +81,12 @@ const ProfileScreen = ({ navigation }) => {
             source={image ? { uri: image } : require("../assets/avatar.png")}
             style={styles.profileImage}
           />
-          <Ionicons
+          {/* <Ionicons
             name="ios-camera"
             size={30}
             color="#333"
             style={styles.cameraIcon}
-          />
+          /> */}
         </TouchableOpacity>
         <Text style={styles.profileName}>{userDetails.name}</Text>
         <Text style={styles.profileEmail}>{userDetails.email}</Text>

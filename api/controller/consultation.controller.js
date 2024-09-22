@@ -32,26 +32,42 @@ exports.getMyConsultations = async (req, res) => {
   }
 };
 
-
-// Create a new user
+// Fetch messages for a specific chat and reset unread message count
 exports.getMessages = async (req, res) => {
   try {
-    // Extract user data from the request body
-    const chatId = req.params.chatId
-    console.log(chatId)
-    // Create a new user document
+    const chatId = req.params.chatId;
+    const userId = req.params.userId;  // We assume the user ID is passed in the request, modify as necessary
+    
+    // Find the consultation document by chatId
     const consultation = await Consultation.findById(chatId);
 
-    console.log(consultation)
-    
-    res.status(201).json({ message: "no messages found",messages:consultation.messages });
+    if (!consultation) {
+      return res.status(404).json({ message: "Consultation not found", messages: [] });
+    }
+
+    // Check whether the user is the patient or doctor
+    if (consultation.patientId == userId) {
+      // Reset the patient's unread message count
+      consultation.patientMessageCount = 0;
+      console.log('Patient fetched messages, unread count reset');
+    } else if (consultation.doctorId == userId) {
+      // Reset the doctor's unread message count
+      consultation.doctorMessageCount = 0;
+      console.log('Doctor fetched messages, unread count reset');
+    } else {
+      return res.status(403).json({ message: "Unauthorized access to messages", messages: [] });
+    }
+
+    // Save the updated consultation document
+    await consultation.save();
+
+    // Send the consultation messages back to the user
+    res.status(200).json({ messages: consultation.messages });
   } catch (error) {
-    res
-      .status(500)
-      .json({ message: "User creation failed", messages:[],error: error.message });
+    console.error('Error fetching messages:', error);
+    res.status(500).json({ message: "Failed to fetch messages", messages: [], error: error.message });
   }
 };
-
 
 // Send a message and append it to the consultation's messages array
 exports.sendMessage = async (req, res) => {

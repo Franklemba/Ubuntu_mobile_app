@@ -88,7 +88,8 @@ const DoctorDetailsScreen = ({ route }) => {
               {/* Experience */}
               <View style={styles.box}>
                 <View style={styles.experienceContainer}>
-                  <Ionicons name="ios-briefcase" size={30} color="#636e72" />
+                  {/* <Ionicons name="ios-briefcase" size={30} color="#636e72" /> */}
+                  <Ionicons name="briefcase" size={30} color="#636e72" />
                   <Text style={styles.experience}>
                     {doctor
                       ? `Experience: ${doctor.experience}`
@@ -100,7 +101,8 @@ const DoctorDetailsScreen = ({ route }) => {
               {/* Education */}
               <View style={styles.box}>
                 <View style={styles.educationContainer}>
-                  <Ionicons name="ios-school" size={30} color="#130f40" />
+                  {/* <Ionicons name="ios-school" size={30} color="#130f40" /> */}
+                  <Ionicons name="school" size={24} color="#130f40" />
                   <Text style={styles.education}>
                     {doctor
                       ? `Education: ${doctor.education}`
@@ -112,7 +114,8 @@ const DoctorDetailsScreen = ({ route }) => {
               {/* Languages */}
               <View style={styles.box}>
                 <View style={styles.languagesContainer}>
-                  <Ionicons name="ios-globe" size={30} color="#4834d4" />
+                  {/* <Ionicons name="ios-globe" size={30} color="#4834d4" /> */}
+                  <Ionicons name="language" size={24} color="#4834d4" />
                   <Text style={styles.languages}>
                     {doctor
                       ? `Languages: ${doctor.languages.join(", ")}`
@@ -132,7 +135,7 @@ const DoctorDetailsScreen = ({ route }) => {
             {/* Button to Book an Appointment */}
             <View style={styles.buttonContainer}>
               <TouchableOpacity style={styles.bookAppointmentButton}>
-                <Text style={styles.bookAppointmentText}>Book Appointment</Text>
+                <Text style={styles.bookAppointmentText}>Contact</Text>
               </TouchableOpacity>
             </View>
           </>

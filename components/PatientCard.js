@@ -31,7 +31,7 @@ const PatientCard = ({ consultation }) => {
             onPress={handleViewConsultation}
           >
             <Text style={styles.learnMoreButtonText}>View Request</Text>
-            <Icon name="ios-arrow-forward" size={24} color="#fff" />
+            {/* <Icon name="ios-arrow-forward" size={24} color="#fff" /> */}
           </TouchableOpacity>
         </View>
       </View>

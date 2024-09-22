@@ -46,6 +46,14 @@ const consultationSchema = new mongoose.Schema({
         required: false,
         default:''
      },
+     patientEmail: {
+         type: String, 
+         required: false, 
+     },
+     patientPhone: {
+          type: String,
+          required: false
+     },
   createdAt:{
     type: Date,
     required: true,
@@ -62,7 +70,15 @@ const consultationSchema = new mongoose.Schema({
      lastMessageRead:{
         type: Boolean,
         default:false
-     }
+     },
+    patientMessageCount:{
+        type:Number,
+        default:0
+    }   ,
+    doctorMessageCount:{
+        type:Number,
+        default:0
+    }   
 })
 
 

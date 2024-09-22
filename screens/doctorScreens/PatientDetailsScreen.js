@@ -7,7 +7,8 @@ import {
   TouchableOpacity,
   Button,
 } from "react-native";
-import { FontAwesome, MaterialIcons, Ionicons } from "@expo/vector-icons";
+import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import CustomButton from "../../components/CustomButton";
@@ -71,22 +72,23 @@ const PatientDetailsScreen = ({route}) => {
           <>
             {/* Top Section */}
             <View style={styles.topContainer}>
-              <Image
-                source={{ uri: "https://images.unsplash.com/photo-1672906035342-8dbcde9cfcdc?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDZ8fHxlbnwwfHx8fHw%3D" }}
-                style={styles.doctorImage}
-              />
-              <Text style={styles.doctorName}>
-               Name: {userDetails ? userDetails.name : "Patient Name Not Found"}
-                
+            <View style={styles.nameCircle}>
+              <Text style={styles.initial}>
+                {consultation ? consultation.patientName.charAt(0) : "P"}
               </Text>
             </View>
+            <Text style={styles.doctorName}>
+              Name: {consultation ? consultation.patientName : "Patient Name Not Found"}
+            </Text>
+          </View>
 
             {/* Middle Container with Icons */}
             <View style={styles.middleContainer}>
               {/* Location */}
               <View style={styles.box}>
                 <View style={styles.locationContainer}>
-                  <FontAwesome name="map-marker" size={30} color="#00b894" />
+                  {/* <FontAwesome name="map-marker" size={30} color="#00b894" /> */}
+                  <FontAwesome6 name="user-doctor" size={36} color="black" />
                   <Text style={styles.locationText}>
                       Doctor Type: {consultation.doctorType }
                   </Text>
@@ -98,7 +100,8 @@ const PatientDetailsScreen = ({route}) => {
               {/* Experience */}
               <View style={styles.box}>
                 <View style={styles.experienceContainer}>
-                  <Ionicons name="ios-briefcase" size={30} color="#636e72" />
+                  {/* <Ionicons name="ios-briefcase" size={30} color="#636e72" /> */}
+                  <MaterialIcons name="medication" size={36} color="black" />
                   <Text style={styles.experience}>
                     {consultation
                       ? `Medications: ${consultation.medications}`
@@ -121,10 +124,10 @@ const PatientDetailsScreen = ({route}) => {
                 Previous Treatments: {consultation.previousTreatments}
               </Text>
               <Text style={styles.bio}>
-                Patient Email: {userDetails.email}
+                 {consultation.patientEmail}
               </Text>
               <Text style={styles.bio}>
-                Patient Phone number: {userDetails.mobileNumber}
+                {consultation.patientPhone}
               </Text>
               
             </View>
@@ -152,6 +155,18 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     marginBottom: 10,
+  },
+  nameCircle: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    backgroundColor: "#ccc", // Change to your preferred background color
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  initial: {
+    fontSize: 24,
+    color: "#fff", // Change to your preferred text color
   },
   doctorImage: {
     width: "100%",
