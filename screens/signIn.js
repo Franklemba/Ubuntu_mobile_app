@@ -43,9 +43,9 @@ const SignIn = () => {
     return emailRegex.test(email);
   };
 
-  const apiEndpoint =
-    "http://127.0.0.1:5000/auth/signin";
-
+  // const apiEndpoint =
+  //   "http://127.0.0.1:5000/auth/signin";
+  const apiEndpoint = "https://ubuntuserver-7wbg.onrender.com/"
   const handleSignIn = async () => {
     if (!email || !password) {
       setError("All fields are required.");

@@ -18,7 +18,9 @@ const DoctorListsScreen = () => {
     // Fetch the doctors from the backend when the component mounts
     const fetchDoctors = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/users/doctors`)
+        
+        // http://localhost:5000
+        const response = await axios.get(`https://ubuntuserver-7wbg.onrender.com/users/doctors`)
 
           setDoctorsData(response.data.doctors); // Update state with fetched doctors
       

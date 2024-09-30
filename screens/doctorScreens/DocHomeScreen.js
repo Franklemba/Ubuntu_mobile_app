@@ -21,7 +21,9 @@ const DocHomeScreen = () => {
 
   useEffect(() => {
     // Fetch consultation requests from backend
-    axios.get('http://localhost:5000/consultationRequests')
+    
+    http://localhost:5000
+    axios.get('https://ubuntuserver-7wbg.onrender.com/consultationRequests')
       .then(response => {
         console.log(response.data)
         // Check if the response is an array

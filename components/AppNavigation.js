@@ -112,7 +112,10 @@ const AppNavigation = () => {
   const { userDetails } = useAuth();
   const fetchUnreadMessages = async () => {
     try {
-      const response = await fetch(`http://localhost:5000/consultation/messageCount/${userDetails._id}`); // Replace with your API URL
+        const apiEndpoint = "https://ubuntuserver-7wbg.onrender.com/"
+        // const response = await fetch(`http://localhost:5000/consultation/messageCount/${userDetails._id}`); // Replace with your API URL
+     
+        const response = await fetch(`http://ubuntuserver-7wbg.onrender.com/consultation/messageCount/${userDetails._id}`); // Replace with your API URL
       const data = await response.json();
 
    console.log(data)

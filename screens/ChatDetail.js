@@ -7,8 +7,8 @@ import io from 'socket.io-client';
 import * as timeago from 'timeago.js';
 
 // Initialize the socket connection
-const socket = io('http://localhost:5000');
-
+// const socket = io('http://localhost:5000');
+        const socket = io("https://ubuntuserver-7wbg.onrender.com/")
 
 const ChatDetail = ({ route }) => {
   const { chatId, item } = route.params;
@@ -19,7 +19,9 @@ const ChatDetail = ({ route }) => {
 
   useEffect(() => {
     // Fetch chat messages from backend and join the chat room via socket
-    axios.get(`http://localhost:5000/consultation/getMessages/${chatId}/${userDetails._id}`)
+    
+    http://localhost:5000
+    axios.get(`https://ubuntuserver-7wbg.onrender.com/consultation/getMessages/${chatId}/${userDetails._id}`)
       .then(response => {
         setMessages(response.data.messages);
         socket.emit('joinSocket', chatId);
