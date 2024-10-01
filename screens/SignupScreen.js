@@ -43,7 +43,7 @@ const SignupScreen = () => {
 
   // const apiEndpoint =
   //   "http://127.0.0.1:5000/auth/signup";
-  const apiEndpoint = "https://ubuntuserver-7wbg.onrender.com/"
+  const apiEndpoint = "https://ubuntuserver-7wbg.onrender.com/auth/signup"
   const handleGoToSignin = () => {
     navigation.navigate("Signin");
   };
