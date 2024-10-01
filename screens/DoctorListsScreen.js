@@ -14,11 +14,11 @@ import axios from 'axios';
 const DoctorListsScreen = () => {
   const [doctorsData, setDoctorsData] = useState([]); // State to store doctors from the backend
 
+  
   useEffect(() => {
     // Fetch the doctors from the backend when the component mounts
     const fetchDoctors = async () => {
       try {
-        
         // http://localhost:5000
         const response = await axios.get(`https://ubuntuserver-7wbg.onrender.com/users/doctors`)
 
