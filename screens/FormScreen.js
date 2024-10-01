@@ -1,17 +1,16 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, StyleSheet, Alert, Modal, ActivityIndicator, ScrollView } from 'react-native';
-import { Picker } from '@react-native-picker/picker';
-import MaterialIcons from '@expo/vector-icons/MaterialIcons';
-import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
-import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
-import AntDesign from '@expo/vector-icons/AntDesign';
-import Fontisto from '@expo/vector-icons/Fontisto';
-import axios from 'axios';
-import { BlurView } from "expo-blur";
+import { View, Text, TextInput, StyleSheet, Alert, Modal, ActivityIndicator, ScrollView, Platform, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from "react-native-safe-area-context";
-import CustomButton from "../components/CustomButton";
 import { useNavigation } from "@react-navigation/native";
 import { useAuth } from "../AuthContext";
+import axios from 'axios';
+import { BlurView } from "expo-blur";
+import CustomButton from "../components/CustomButton";
+
+// Icon imports
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import FontAwesome from '@expo/vector-icons/FontAwesome';
+import Fontisto from '@expo/vector-icons/Fontisto';
 
 
 const FormScreen = () => {
@@ -25,7 +24,7 @@ const FormScreen = () => {
     allergies: '',
     recentSkinTreatments: '',
     healthConditions: '',
-    doctorType: 'Cardiologist',
+    doctorType: '',
     consultationReason: '',
   });
 
@@ -85,11 +84,11 @@ const FormScreen = () => {
     }
   };
 
-  const renderInputField = (name, placeholder, icon) => (
+  const renderInputField = (name, placeholder, iconComponent) => (
     <View style={styles.inputContainer}>
-      {icon}
+      {iconComponent}
       <TextInput
-        style={[styles.input, { height: 100 }]}
+        style={styles.input}
         placeholder={placeholder}
         value={formData[name]}
         onChangeText={(value) => handleChange(name, value)}
@@ -100,32 +99,22 @@ const FormScreen = () => {
   );
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <ScrollView>
+    <SafeAreaView style={styles.safeArea}>
+      <ScrollView contentContainerStyle={styles.scrollViewContent}>
         <View style={styles.container}>
           <Text style={styles.title}>Seek consultation</Text>
-          <View style={styles.inputContainer}>
-            <MaterialIcons name="local-hospital" size={24} color="#00b894" />
-            <Picker
-              style={styles.picker}
-              selectedValue={formData.doctorType}
-              onValueChange={(itemValue) => handleChange('doctorType', itemValue)}
-            >
-              <Picker.Item label="Cardiologist" value="Cardiologist" />
-              <Picker.Item label="Dermatologist" value="Dermatologist" />
-              <Picker.Item label="Neurologist" value="Neurologist" />
-              <Picker.Item label="Pediatrician" value="Pediatrician" />
-              <Picker.Item label="Orthopedic Surgeon" value="Orthopedic Surgeon" />
-            </Picker>
-          </View>
+          
+          {renderInputField('doctorType', 'Doctor Type', <MaterialIcons name="local-hospital" size={24} color="#00b894" />)}
           {renderInputField('previousTreatments', 'Previous treatments or surgeries', <Fontisto name="surgical-knife" size={24} color="#00b894" />)}
-          {renderInputField('specialistAppointments', 'Specialist appointments', null)}
-          {renderInputField('medications', 'Medications', <FontAwesome6 name="user-doctor" size={36} color="black" />)}
-          {renderInputField('allergies', 'Allergies', <FontAwesome5 name="allergies" size={24} color="#00b894" />)}
-          {renderInputField('recentSkinTreatments', 'Recent skin treatments', <AntDesign name="skin" size={24} color="#00b894" />)}
-          {renderInputField('healthConditions', 'Current health conditions', <MaterialIcons name="health-and-safety" size={24} color="#00b894" />)}
-          {renderInputField('consultationReason', 'Reason for consultation', null)}
+          {renderInputField('specialistAppointments', 'Specialist appointments', <MaterialIcons name="event" size={24} color="#00b894" />)}
+          {renderInputField('medications', 'Medications', <FontAwesome name="medkit" size={24} color="#00b894" />)}
+          {renderInputField('allergies', 'Allergies', <FontAwesome name="warning" size={24} color="#00b894" />)}
+          {renderInputField('recentSkinTreatments', 'Recent skin treatments', <MaterialIcons name="healing" size={24} color="#00b894" />)}
+          {renderInputField('healthConditions', 'Current health conditions', <MaterialIcons name="favorite" size={24} color="#00b894" />)}
+          {renderInputField('consultationReason', 'Reason for consultation', <MaterialIcons name="question-answer" size={24} color="#00b894" />)}
+          
           <CustomButton title="Submit" onPress={handleSubmit} />
+          
           {isLoading && (
             <Modal transparent={true} animationType="slide" visible={isLoading}>
               <BlurView
@@ -143,6 +132,14 @@ const FormScreen = () => {
 };
 
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: '#fff',
+  },
+  scrollViewContent: {
+    flexGrow: 1,
+    paddingBottom: 20,
+  },
   container: {
     flex: 1,
     padding: 20,
@@ -161,17 +158,60 @@ const styles = StyleSheet.create({
     borderColor: '#ddd',
     borderRadius: 10,
     padding: 10,
-    marginBottom: 10,
+    marginBottom: 15,
   },
   input: {
     flex: 1,
     marginLeft: 10,
     fontSize: 16,
+    paddingVertical: 5,
+    minHeight: 100,
+    textAlignVertical: 'top',
+  },
+  pickerContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#ddd',
+    borderRadius: 10,
+    marginBottom: 15,
+    overflow: 'hidden',
+  },
+  pickerIcon: {
+    paddingLeft: 10,
   },
   picker: {
     flex: 1,
-    marginLeft: 10,
     height: 50,
+  },
+  pickerButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#ddd',
+    borderRadius: 10,
+    padding: 10,
+    marginBottom: 15,
+  },
+  pickerButtonText: {
+    flex: 1,
+    fontSize: 16,
+    marginLeft: 10,
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  doneButton: {
+    backgroundColor: '#00b894',
+    padding: 10,
+    alignItems: 'center',
+  },
+  doneButtonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
   },
   loadingContainer: {
     flex: 1,

@@ -1,26 +1,21 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, FlatList, TextInput, Button, StyleSheet } from 'react-native';
+import { View, Text, FlatList, TextInput, Button, StyleSheet, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import axios from 'axios';
 import { useAuth } from "../AuthContext";
 import { useNavigation } from '@react-navigation/native';
 import io from 'socket.io-client';
 import * as timeago from 'timeago.js';
 
-// Initialize the socket connection
-// const socket = io('http://localhost:5000');
-        const socket = io("https://ubuntuserver-7wbg.onrender.com/")
+const socket = io("https://ubuntuserver-7wbg.onrender.com/");
 
 const ChatDetail = ({ route }) => {
   const { chatId, item } = route.params;
   const { userDetails } = useAuth();
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
- const flatListRef = useRef(null);
+  const flatListRef = useRef(null);
 
   useEffect(() => {
-    // Fetch chat messages from backend and join the chat room via socket
-    
-    http://localhost:5000
     axios.get(`https://ubuntuserver-7wbg.onrender.com/consultation/getMessages/${chatId}/${userDetails._id}`)
       .then(response => {
         setMessages(response.data.messages);
@@ -30,16 +25,14 @@ const ChatDetail = ({ route }) => {
         console.error('Error fetching messages:', error);
       });
     
-    // Listen for incoming messages
     socket.on('incomingMessage', (incomingMessage) => {
       setMessages(prevMessages => [...prevMessages, incomingMessage]);
       scrollToBottom();
     });
 
-    // Clean up the socket connection when the component unmounts
     return () => {
       socket.off('incomingMessage');
-      socket.emit('leaveSocket', chatId); // Assuming you have a handler for leaving the room
+      socket.emit('leaveSocket', chatId);
     };
   }, [chatId]);
 
@@ -49,28 +42,23 @@ const ChatDetail = ({ route }) => {
     const messageData = {
       chatId,
       message: {
-        id: messages.length +1+userDetails.accountType,
+        id: messages.length + 1 + userDetails.accountType,
         userId: userDetails._id,
         text: newMessage,
         sender: userDetails.accountType,
-        timestamp: new Date().toISOString(), // Add a timestamp
+        timestamp: new Date().toISOString(),
       }
     };
 
-    // Emit the message through Socket.IO
     socket.emit('sendMessage', messageData);
-    
-    // Update local state with the new message
-   setNewMessage('');
-
+    setNewMessage('');
   };
 
   const scrollToBottom = () => {
-    if (flatListRef.current){
+    if (flatListRef.current) {
       flatListRef.current.scrollToEnd({ animated: true });
     }
   };
-  scrollToBottom();
 
   const renderItem = ({ item }) => (
     <View
@@ -83,31 +71,48 @@ const ChatDetail = ({ route }) => {
       <Text style={styles.timestamp}>{timeago.format(item.timestamp)}</Text>
     </View>
   );
+
   return (
-    <View style={styles.container}>
-      <FlatList
-      ref={flatListRef}
-        data={messages}
-        keyExtractor={item => item?.id.toString()}
-        renderItem={renderItem}
-      />
-      <View style={styles.inputContainer}>
-        <TextInput
-          style={styles.input}
-          value={newMessage}
-          onChangeText={setNewMessage}
-          placeholder="Type a message"
-        />
-        <Button title="Send" onPress={handleSend} />
-      </View>
-    </View>
+    <KeyboardAvoidingView 
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={styles.container}
+      keyboardVerticalOffset={Platform.OS === "ios" ? 90 : 0} // Adjust this value as needed
+    >
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View style={styles.inner}>
+          <FlatList
+            ref={flatListRef}
+            data={messages}
+            keyExtractor={item => item?.id.toString()}
+            renderItem={renderItem}
+            contentContainerStyle={styles.messageList}
+          />
+          <View style={styles.inputContainer}>
+            <TextInput
+              style={styles.input}
+              value={newMessage}
+              onChangeText={setNewMessage}
+              placeholder="Type a message"
+            />
+            <Button title="Send" onPress={handleSend} />
+          </View>
+        </View>
+      </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 10,
+  },
+  inner: {
+    flex: 1,
+    justifyContent: 'flex-end',
+  },
+  messageList: {
+    paddingHorizontal: 10,
+    paddingBottom: 10,
   },
   message: {
     padding: 10,
@@ -134,6 +139,7 @@ const styles = StyleSheet.create({
     padding: 10,
     borderTopWidth: 1,
     borderColor: '#ddd',
+    backgroundColor: '#fff',
   },
   input: {
     flex: 1,
