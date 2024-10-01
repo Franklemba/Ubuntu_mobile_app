@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Picker, Alert, Modal, ActivityIndicator, ScrollView } from 'react-native';
+import { View, Text, TextInput, StyleSheet, Alert, Modal, ActivityIndicator, ScrollView } from 'react-native';
+import { Picker } from '@react-native-picker/picker';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
@@ -12,49 +13,48 @@ import CustomButton from "../components/CustomButton";
 import { useNavigation } from "@react-navigation/native";
 import { useAuth } from "../AuthContext";
 
-
 const FormScreen = () => {
   const { userDetails } = useAuth();
-
-  const [previousTreatments, setPreviousTreatments] = useState('');
-  const [specialistAppointments, setSpecialistAppointments] = useState('');
-  const [medications, setMedications] = useState('');
-  const [allergies, setAllergies] = useState('');
-  const [recentSkinTreatments, setRecentSkinTreatments] = useState('');
-  const [healthConditions, setHealthConditions] = useState('');
-  const [doctorType, setDoctorType] = useState('Cardiologist'); // Default doctor type
-  const [consultationReason, setConsultation] = useState('');
   const navigation = useNavigation();
 
-  // const apiEndpoint = "http://localhost:5000/consultation/submit";
-    const apiEndpoint = "https://ubuntuserver-7wbg.onrender.com/consultation/submit"
+  const [formData, setFormData] = useState({
+    previousTreatments: '',
+    specialistAppointments: '',
+    medications: '',
+    allergies: '',
+    recentSkinTreatments: '',
+    healthConditions: '',
+    doctorType: 'Cardiologist',
+    consultationReason: '',
+  });
+
   const [isLoading, setIsLoading] = useState(false);
 
+  const apiEndpoint = "https://ubuntuserver-7wbg.onrender.com/consultation/submit";
+
+  const handleChange = (name, value) => {
+    setFormData(prevState => ({
+      ...prevState,
+      [name]: value
+    }));
+  };
+
   const handleSubmit = async () => {
-
     try {
-      
-      setIsLoading(true); // Start loading
+      setIsLoading(true);
 
-      if (!previousTreatments || !specialistAppointments || !medications || !allergies || !recentSkinTreatments || !healthConditions || !doctorType || !consultationReason) {
+      if (Object.values(formData).some(value => value === '')) {
         Alert.alert("Error", "All fields are required.");
-        throw new Error("All fields are required.");
+        return;
       }
 
       const fields = {
-        previousTreatments,
-        specialistAppointments,
-        medications,
-        allergies,
-        recentSkinTreatments,
-        healthConditions,
-        doctorType,
-        consultationReason,
-        patientName : userDetails.name,
-        patientId : userDetails._id,
-        patientEmail : userDetails.email,
-        patientPhone : userDetails.mobileNumber
-      }
+        ...formData,
+        patientName: userDetails.name,
+        patientId: userDetails._id,
+        patientEmail: userDetails.email,
+        patientPhone: userDetails.mobileNumber
+      };
 
       const response = await axios.post(apiEndpoint, fields, {
         headers: {
@@ -62,163 +62,82 @@ const FormScreen = () => {
         }
       });
 
-      console.log(response);
-
       if (response.status === 201) {
         Alert.alert("Success", "Consultation submitted successfully");
-        // Reset the form
-        setPreviousTreatments('');
-        setSpecialistAppointments('');
-        setMedications('');
-        setAllergies('');
-        setRecentSkinTreatments('');
-        setHealthConditions('');
-        setDoctorType('Cardiologist');
-        setConsultation('');
+        setFormData({
+          previousTreatments: '',
+          specialistAppointments: '',
+          medications: '',
+          allergies: '',
+          recentSkinTreatments: '',
+          healthConditions: '',
+          doctorType: 'Cardiologist',
+          consultationReason: '',
+        });
         navigation.navigate("consultationRequest");
-        console.log(response.status);
       }
-
-      console.log("Form submitted with:", { previousTreatments, specialistAppointments, medications, allergies, recentSkinTreatments,consultationReason ,healthConditions, doctorType});
-
-         
-
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        console.error("Axios error:", error);
-        console.error("Axios error response:", error.response);
-        console.error("Response data:", error.response?.data);
-        Alert.alert("Error", `Failed to submit consultation: ${error.message}`);
-      } else {
-        console.error("Request Error:", error.message);
-        Alert.alert("Error", `Request Error: ${error.message}`);
-      }
+      console.error("Request Error:", error);
+      Alert.alert("Error", `Failed to submit consultation: ${error.message}`);
     } finally {
-      setIsLoading(false); // Stop loading
+      setIsLoading(false);
     }
   };
+
+  const renderInputField = (name, placeholder, icon) => (
+    <View style={styles.inputContainer}>
+      {icon}
+      <TextInput
+        style={[styles.input, { height: 100 }]}
+        placeholder={placeholder}
+        value={formData[name]}
+        onChangeText={(value) => handleChange(name, value)}
+        multiline
+        numberOfLines={4}
+      />
+    </View>
+  );
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <ScrollView>
-          <View style={styles.container}>
-            <Text style={styles.title}>Seek consultation</Text>
-            <View style={styles.inputContainer}>
-              <MaterialIcons name="local-hospital" size={24} color="#00b894" />
-              
-              <Picker
-                style={[styles.input, { height: 50 }]}
-                selectedValue={doctorType}
-                onValueChange={(itemValue) => setDoctorType(itemValue)}
-              >
-                <Picker.Item label="Cardiologist" value="Cardiologist" />
-                <Picker.Item label="Dermatologist" value="Dermatologist" />
-                <Picker.Item label="Neurologist" value="Neurologist" />
-                <Picker.Item label="Pediatrician" value="Pediatrician" />
-                <Picker.Item label="Orthopedic Surgeon" value="Orthopedic Surgeon" />
-              </Picker>
-            </View>
-            <View style={styles.inputContainer}>
-              <Fontisto name="surgical-knife" size={24} color="#00b894" />
-              <TextInput
-                style={[styles.input, { height: 100 }]}
-                placeholder="Previous treatments or surgeries"
-                value={previousTreatments}
-                onChangeText={setPreviousTreatments}
-                multiline
-                numberOfLines={4}
-              />
-            </View>
-            <View style={styles.inputContainer}>
-              {/* <Ionicons name="ios-chatbubbles" size={24} color="#00b894" /> */}
-              <TextInput
-                style={[styles.input, { height: 100 }]}
-                placeholder="Specialist appointments"
-                value={specialistAppointments}
-                onChangeText={setSpecialistAppointments}
-                multiline
-                numberOfLines={4}
-              />
-            </View>
-            <View style={styles.inputContainer}>
-              {/* <Ionicons name="ios-chatbubbles" size={24} color="#00b894" /> */}
-              <FontAwesome6 name="user-doctor" size={36} color="black" />
-              <TextInput
-                style={[styles.input, { height: 100 }]}
-                placeholder="Medications"
-                value={medications}
-                onChangeText={setMedications}
-                multiline
-                numberOfLines={4}
-              />
-            </View>
-            <View style={styles.inputContainer}>
-              {/* <Ionicons name="ios-chatbubbles" size={24} color="#00b894" /> */}
-              <FontAwesome5 name="allergies" size={24} color="00b894" />
-              <TextInput
-                style={[styles.input, { height: 100 }]}
-                placeholder="Allergies"
-                value={allergies}
-                onChangeText={setAllergies}
-                multiline
-                numberOfLines={4}
-              />
-            </View>
-            <View style={styles.inputContainer}>
-              {/* <Ionicons name="ios-chatbubbles" size={24} color="#00b894" /> */}
-              <AntDesign name="skin" size={24} color="00b894" />
-              <TextInput
-                style={[styles.input, { height: 100 }]}
-                placeholder="Recent skin treatments"
-                value={recentSkinTreatments}
-                onChangeText={setRecentSkinTreatments}
-                multiline
-                numberOfLines={4}
-              />
-            </View>
-            <View style={styles.inputContainer}>
-              {/* <Ionicons name="ios-chatbubbles" size={24} color="#00b894" /> */}
-              <MaterialIcons name="health-and-safety" size={24} color="00b894" />
-              <TextInput
-                style={[styles.input, { height: 100 }]}
-                placeholder="Current health conditions"
-                value={healthConditions}
-                onChangeText={setHealthConditions}
-                multiline
-                numberOfLines={4}
-              />
-            </View>
-            <View style={styles.inputContainer}>
-              {/* <Ionicons name="ios-chatbubbles" size={24} color="#00b894" /> */}
-              <TextInput
-                style={[styles.input, { height: 100 }]}
-                placeholder="Reason for consultation"
-                value={consultationReason}
-                onChangeText={setConsultation}
-                multiline
-                numberOfLines={4}
-              />
-            </View>
-            <CustomButton title={"Submit"} onPress={handleSubmit} />
-            {isLoading && (
-              <Modal transparent={true} animationType="slide" visible={isLoading}>
-                <BlurView
-                  intensity={100}
-                  style={{
-                    flex: 1,
-                    justifyContent: "center",
-                    alignItems: "center",
-                    backgroundColor: "rgba(0, 184, 147, 0.103)",
-                  }}
-                >
-                  <ActivityIndicator size="large" color="#00b894" />
-                </BlurView>
-              </Modal>
-            )}
+        <View style={styles.container}>
+          <Text style={styles.title}>Seek consultation</Text>
+          <View style={styles.inputContainer}>
+            <MaterialIcons name="local-hospital" size={24} color="#00b894" />
+            <Picker
+              style={styles.picker}
+              selectedValue={formData.doctorType}
+              onValueChange={(itemValue) => handleChange('doctorType', itemValue)}
+            >
+              <Picker.Item label="Cardiologist" value="Cardiologist" />
+              <Picker.Item label="Dermatologist" value="Dermatologist" />
+              <Picker.Item label="Neurologist" value="Neurologist" />
+              <Picker.Item label="Pediatrician" value="Pediatrician" />
+              <Picker.Item label="Orthopedic Surgeon" value="Orthopedic Surgeon" />
+            </Picker>
           </View>
+          {renderInputField('previousTreatments', 'Previous treatments or surgeries', <Fontisto name="surgical-knife" size={24} color="#00b894" />)}
+          {renderInputField('specialistAppointments', 'Specialist appointments', null)}
+          {renderInputField('medications', 'Medications', <FontAwesome6 name="user-doctor" size={36} color="black" />)}
+          {renderInputField('allergies', 'Allergies', <FontAwesome5 name="allergies" size={24} color="#00b894" />)}
+          {renderInputField('recentSkinTreatments', 'Recent skin treatments', <AntDesign name="skin" size={24} color="#00b894" />)}
+          {renderInputField('healthConditions', 'Current health conditions', <MaterialIcons name="health-and-safety" size={24} color="#00b894" />)}
+          {renderInputField('consultationReason', 'Reason for consultation', null)}
+          <CustomButton title="Submit" onPress={handleSubmit} />
+          {isLoading && (
+            <Modal transparent={true} animationType="slide" visible={isLoading}>
+              <BlurView
+                intensity={100}
+                style={styles.loadingContainer}
+              >
+                <ActivityIndicator size="large" color="#00b894" />
+              </BlurView>
+            </Modal>
+          )}
+        </View>
       </ScrollView>
     </SafeAreaView>
-
   );
 };
 
@@ -248,17 +167,16 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     fontSize: 16,
   },
-  submitButton: {
-    backgroundColor: '#00b894',
-    padding: 15,
-    borderRadius: 10,
-    alignItems: 'center',
-    marginTop: 20,
+  picker: {
+    flex: 1,
+    marginLeft: 10,
+    height: 50,
   },
-  submitButtonText: {
-    color: 'white',
-    fontWeight: 'bold',
-    fontSize: 18,
+  loadingContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 184, 147, 0.103)",
   },
 });
 
