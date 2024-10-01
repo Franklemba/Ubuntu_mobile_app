@@ -29,7 +29,7 @@ const ProfileScreen = ({ navigation }) => {
 
 
   const handleSignOut = () => {
-    updateAuthentication(false);
+    // updateAuthentication(false);
     navigation.navigate("Signin"); // Adjust according to your navigation
   };
 
