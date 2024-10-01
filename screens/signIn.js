@@ -45,7 +45,7 @@ const SignIn = () => {
 
   // const apiEndpoint =
   //   "http://127.0.0.1:5000/auth/signin";
-  const apiEndpoint = "https://ubuntuserver-7wbg.onrender.com/"
+  const apiEndpoint = "https://ubuntuserver-7wbg.onrender.com/auth/signin"
   const handleSignIn = async () => {
     if (!email || !password) {
       setError("All fields are required.");
