@@ -31,7 +31,11 @@ const PatientDetailsScreen = ({route}) => {
 
 
   const handleAccept = () =>{
-    axios.post(`http://localhost:5000/consultation/accept/${consultation._id}`, {  
+    // axios.post(`http://localhost:5000/consultation/accept/${consultation._id}`, {  
+    //   doctorId:userDetails._id,
+    //   doctorName:userDetails.name
+    //  })
+    axios.post(`https://ubuntuserver-7wbg.onrender.com/consultation/accept/${consultation._id}`, {  
       doctorId:userDetails._id,
       doctorName:userDetails.name
      })

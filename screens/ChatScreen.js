@@ -14,7 +14,9 @@ const ChatScreen = () => {
   const { userDetails } = useAuth();
   useEffect(() => {
     // Fetch chat list from backend
-    axios.get(`http://localhost:5000/consultation/get/${userDetails._id}`)
+    
+    // http://localhost:5000
+    axios.get(`https://ubuntuserver-7wbg.onrender.com/consultation/get/${userDetails._id}`)
       .then(response => {
         console.log(response.data.consultations)
         setChats(response.data.consultations);

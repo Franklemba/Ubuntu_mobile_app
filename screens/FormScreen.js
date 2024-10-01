@@ -26,7 +26,8 @@ const FormScreen = () => {
   const [consultationReason, setConsultation] = useState('');
   const navigation = useNavigation();
 
-  const apiEndpoint = "http://localhost:5000/consultation/submit";
+  // const apiEndpoint = "http://localhost:5000/consultation/submit";
+    const apiEndpoint = "https://ubuntuserver-7wbg.onrender.com/"
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async () => {
